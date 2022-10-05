@@ -20,8 +20,8 @@ CPP Static Library
 	NoiseVarianceEstimateMethod.h
 		Enumeration for the noise variance estimation method.
 
-CPP DLL
-	DLL wrapper around the main SegmentSignal function.
+C DLL
+	DLL wrapper around the main SegmentSignal function.  The DLL exposes a C function for calling.
 
 C Sharp DLL Wrapper
 	C# interface to the DLL.  Classes mirror those in C++.
