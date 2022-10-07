@@ -13,7 +13,7 @@ namespace Algorithms
 	{
 		#region DLL Imports
 
-		[DllImport("SegmentSignal.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("SegmentSignalC.dll", CallingConvention = CallingConvention.Cdecl)]
 		private static extern void SegmentSignalWrapper(double[] LOG, int NSAMPS, double F, int ORDER, int ORDER1, int RMODE, int NITER, double[] Q, out int NQ, double[] FLTLOG, double[] SEGLOG, double[] R, out double C, out double D, out int NACT, out int IER);
 
 		#endregion

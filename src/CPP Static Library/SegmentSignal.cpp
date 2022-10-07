@@ -67,7 +67,7 @@ namespace Algorithms
 		int		iterations				= 0;
 		int		error					= 0;
 	
-		int signalLength		= signal.size();
+		int signalLength		= (int)signal.size();
 		double* signalToPass	= new double[signalLength];
 		for (int i = 0; i < signalLength; i++)
 		{

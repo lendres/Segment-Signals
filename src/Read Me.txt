@@ -29,5 +29,8 @@ C Sharp DLL Wrapper
 * Unit Tests
 	Testing projects.  Also provides examples.  See the "LogSeparateTest" functions for a basic example.
 
+Python Extensions
+	Builds a library for use with Python.  See the "Read Me.txt" file in that project for more information.
+
 To do:
  - Convert the "FindSignificantZones" to a common algorithm for both C++ and C#.
