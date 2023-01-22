@@ -30,12 +30,18 @@
 *.exe
 *.out
 *.app
+*.mex
+*.mexw32
+*.mexw64
 
 # Intermediate and Output Directories
 bin/
 obj/
 x64/
 src/TestResults/
+src/AnyCPU
+src/C DLL/Win32
+Debug/
 
 # User Project Files
 *.user

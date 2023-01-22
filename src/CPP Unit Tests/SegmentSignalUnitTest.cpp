@@ -165,7 +165,7 @@ namespace UnitTests
 		// Reads a data file that contains the information from the example used in the paper on the algorithm.
 		void ReadData()
 		{
-			// Open the file and validate the opening.  This will through an error to the "Test Explorer" if
+			// Open the file and validate the opening.  This will throw an error to the "Test Explorer" if
 			// if fails to open.
 			FILE* file;
 			int error = fopen_s(&file, "..\\..\\..\\Test Data\\Data Set 1.txt", "r");
