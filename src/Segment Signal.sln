@@ -30,6 +30,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Python Extension", "Python Extension\Python Extension.vcxproj", "{08745470-8B00-464C-9163-AA9D1984201C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D5D1403F-7084-47DB-8E6A-ED14F65DE9A9} = {D5D1403F-7084-47DB-8E6A-ED14F65DE9A9}
+		{E0D41DF1-5862-4A1E-9C0C-27C42423C66E} = {E0D41DF1-5862-4A1E-9C0C-27C42423C66E}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,6 @@
 from   distutils.core                            import setup
 from   distutils.core                            import Extension
+from   distutils                                 import sysconfig
 import pybind11
 
 sfc_module = Extension(

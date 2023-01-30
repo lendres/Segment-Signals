@@ -1,13 +1,14 @@
+# Visual Studio Set Up
 C/C++->General->Additional Include Directories
 Set to your Python include folder and the include folder for pybind11.
 Example: C:\Anaconda3\include\
-
 
 Linker->General->Additional Library Directories
 Set to your Python libs folder.
 Example: C:\Anaconda3\libs;
 
 
+# Examples
 Examples of setting up a Python bindings library can be found at:
 https://learn.microsoft.com/en-us/visualstudio/python/working-with-c-cpp-python-in-visual-studio?view=vs-2019#create-the-core-c-projects
 https://jtt94.github.io/posts/2020/08/pythoncpp/
