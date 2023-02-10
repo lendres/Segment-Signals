@@ -1,6 +1,7 @@
-#include <Windows.h>
+//#include <Windows.h>
 #include <cmath>
 #include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
 #include "SegmentSignalFunctions.h"
 #include "SegmentationResults.h"
 #include "SegmentSignal.h"
@@ -24,11 +25,59 @@ double tanh_impl(double x)
     return sinh_impl(x) / cosh_impl(x);
 }
 
+struct Pet
+{
+    Pet(const std::string& name) : name(name) { }
+    void setName(const std::string& name_) { name = name_; }
+    const std::string& getName() const { return name; }
+
+    std::string name;
+};
+
+// Passing in an array of doubles
+py::array_t<double> twice(py::array_t<double> xs)
+{
+    py::buffer_info info = xs.request();
+    double* ptr = static_cast<double*>(info.ptr);
+
+    int n = 1;
+    for (int r: info.shape)
+    {
+        n *= r;
+    }
+
+    for (int i = 0; i <n; i++)
+    {
+        *ptr++ *= 2;
+    }
+
+    return xs;
+}
+
+Algorithms::SegmentationResults* Segment(py::array_t<double> xs, int signalLength, double threshold, int jumpSequenceWindowSize, int noiseVarianceWindowSize)
+{
+    py::buffer_info info = xs.request();
+    double* ptr = static_cast<double*>(info.ptr);
+
+    Algorithms::SegmentationResults* results = Algorithms::SegmentSignal::Segment(ptr, signalLength, threshold, jumpSequenceWindowSize, noiseVarianceWindowSize);
+
+    return results;
+}
+
+
+
 PYBIND11_MODULE(SegmentSignalPy, m)
 {
+    m.def("sinh_impl", &sinh_impl, "Compute a hyperbolic sin of a single argument expressed in radians.");
     m.def("fast_tanh2", &tanh_impl, "Compute a hyperbolic tangent of a single argument expressed in radians.");
+    m.def("twice", &twice, "Double every element in a list.");
 
-    m.def("SegmentSignal", &SegmentSignal, "Segments a signal based on maximum likelihood estimation");
+    m.def("Segment", &Segment, "Segments a signal based on maximum likelihood estimation");
+
+    py::class_<Pet>(m, "Pet")
+        .def(py::init<const std::string&>())
+        .def("setName", &Pet::setName)
+        .def("getName", &Pet::getName);
 
     py::class_<Algorithms::SegmentSignal>(m, "SegmentSignal")
         .def_static("Segment", static_cast<Algorithms::SegmentationResults* (*)(double[], int, double, int, int)>(&Algorithms::SegmentSignal::Segment));
