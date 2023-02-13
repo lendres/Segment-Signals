@@ -42,6 +42,8 @@ src/TestResults/
 src/AnyCPU
 src/C DLL/Win32
 Debug/
+SegmentSignalPy.egg-info/
+build/
 
 # User Project Files
 *.user
@@ -52,3 +54,4 @@ Debug/
 # Individual Files
 src/Test Data/C Sharp Output.txt
 src/Test Data/C Output.txt
+src/Python Extension/Python Extension.vcxproj.filters
