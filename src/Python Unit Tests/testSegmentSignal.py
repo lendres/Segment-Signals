@@ -64,6 +64,19 @@ class TestSegmentSignal(unittest.TestCase):
         logLength = len(self.data["Log"])
         results   = Segment(list(self.data["Log"].values), logLength, self.f, self.order, self.order1)
 
+        delta = 0.3
+        for i in range(logLength):
+            self.assertAlmostEqual(results.SegmentedLog[i], self.data["SegmentedLog"].loc[i], delta=delta)
+            self.assertAlmostEqual(results.FilteredSignal[i], self.data["FilteredLog"].loc[i], delta=delta)
+
+
+    @unittest.skip("Skip plotting.")
+    def testGeneratePlots(self):
+        # This plots up data to review.  It is useful for debugging, but generally should be required.
+        # Comment out the "skip" decorator to see the plots.
+        logLength = len(self.data["Log"])
+        results   = Segment(list(self.data["Log"].values), logLength, self.f, self.order, self.order1)
+
         axis = plt.gca()
         x = range(logLength)
         axis.plot(x, results.FilteredSignal, color="red", label="Result Filtered Signal")
@@ -77,12 +90,6 @@ class TestSegmentSignal(unittest.TestCase):
         axis.plot(x, self.data["SegmentedLog"], label="Input Segmented Signal", linestyle=(0, (5, 5)), linewidth=2)
         axis.legend(loc="lower right", bbox_to_anchor=(1, 0), bbox_transform=axis.transAxes)
         plt.show()
-
-        delta = 0.3
-        for i in range(logLength):
-            self.assertAlmostEqual(results.SegmentedLog[i], self.data["SegmentedLog"].loc[i], delta=delta)
-            self.assertAlmostEqual(results.FilteredSignal[i], self.data["FilteredLog"].loc[i], delta=delta)
-
 
 
 if __name__ == "__main__":
