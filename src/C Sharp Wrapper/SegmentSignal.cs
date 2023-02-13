@@ -262,8 +262,8 @@ namespace Algorithms
 					CheckIfValidZone(xData, threshold, includeBoundries, significantZones, zoneStart, currentIndex-1);
 
 					// Scan for the start of the next potential section.
-					zoneStart = FindNextZero(binaryEvents, currentIndex);
-					currentIndex = zoneStart;
+					zoneStart		= FindNextZero(binaryEvents, currentIndex);
+					currentIndex	= zoneStart;
 				}
 			}
 
