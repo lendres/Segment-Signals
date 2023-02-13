@@ -3,8 +3,13 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
 #include "SegmentSignalFunctions.h"
-#include "SegmentationResults.h"
 #include "SegmentSignal.h"
+#include "SegmentationResults.h"
+#include "SegmentationResultsPy.h"
+
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 namespace py = pybind11;
 
@@ -54,16 +59,31 @@ py::array_t<double> twice(py::array_t<double> xs)
     return xs;
 }
 
-Algorithms::SegmentationResults* Segment(py::array_t<double> xs, int signalLength, double threshold, int jumpSequenceWindowSize, int noiseVarianceWindowSize)
+PythonAlgorithms::SegmentationResults* Segment(py::array_t<double> signalAsPyList, int signalLength, double threshold, int jumpSequenceWindowSize, int noiseVarianceWindowSize)
 {
-    py::buffer_info info = xs.request();
-    double* ptr = static_cast<double*>(info.ptr);
+    py::buffer_info info        = signalAsPyList.request();
+    double* signalDataPointer   = static_cast<double*>(info.ptr);
 
-    Algorithms::SegmentationResults* results = Algorithms::SegmentSignal::Segment(ptr, signalLength, threshold, jumpSequenceWindowSize, noiseVarianceWindowSize);
 
-    return results;
+
+	ofstream myfile;
+	myfile.open("C:\\Projects\\ddosi\\Segment Signals\\src\\Python Extension\\debugoutput.txt");
+	for (int i = 0; i < signalLength; i++)
+	{
+
+		myfile << signalDataPointer[i] << std::endl;
+	}
+	myfile.close();
+
+
+
+    Algorithms::SegmentationResults*		cppResults		= Algorithms::SegmentSignal::Segment(signalDataPointer, signalLength, threshold, jumpSequenceWindowSize, noiseVarianceWindowSize);
+    PythonAlgorithms::SegmentationResults*	pythonResults	= new PythonAlgorithms::SegmentationResults(cppResults);
+	
+	//delete cppResults;
+
+    return pythonResults;
 }
-
 
 
 PYBIND11_MODULE(SegmentSignalPy, m)
@@ -79,20 +99,20 @@ PYBIND11_MODULE(SegmentSignalPy, m)
         .def("setName", &Pet::setName)
         .def("getName", &Pet::getName);
 
-    py::class_<Algorithms::SegmentSignal>(m, "SegmentSignal")
-        .def_static("Segment", static_cast<Algorithms::SegmentationResults* (*)(double[], int, double, int, int)>(&Algorithms::SegmentSignal::Segment));
+    //py::class_<Algorithms::SegmentSignal>(m, "SegmentSignal")
+    //    .def_static("Segment", static_cast<Algorithms::SegmentationResults* (*)(double[], int, double, int, int)>(&Algorithms::SegmentSignal::Segment));
 
-    py::class_<Algorithms::SegmentationResults>(m, "SegmentationResults")
-        .def(py::init<double*, int, double*, double*, double*, double, double, int, int>())
-        .def_property_readonly("BinaryEventSequence", &Algorithms::SegmentationResults::GetBinaryEventSequence)
-        .def_property_readonly("NumberOfBinaryEvents", &Algorithms::SegmentationResults::GetNumberOfBinaryEvents)
-        .def_property_readonly("FilteredSignal", &Algorithms::SegmentationResults::GetFilteredSignal)
-        .def_property_readonly("SegmentedLog", &Algorithms::SegmentationResults::GetSegmentedLog)
-        .def_property_readonly("NoiseVariance", &Algorithms::SegmentationResults::GetNoiseVariance)
-        .def_property_readonly("JumpSequenceVariance", &Algorithms::SegmentationResults::GetJumpSequenceVariance)
-        .def_property_readonly("SegmentDensity", &Algorithms::SegmentationResults::GetSegmentDensity)
-        .def_property_readonly("Iterations", &Algorithms::SegmentationResults::GetIterations)
-        .def_property_readonly("Error", &Algorithms::SegmentationResults::GetError);
+    py::class_<PythonAlgorithms::SegmentationResults>(m, "SegmentationResults")
+        .def(py::init<>())
+        .def_property_readonly("BinaryEventSequence",	&PythonAlgorithms::SegmentationResults::GetBinaryEventSequence)
+        .def_property_readonly("NumberOfBinaryEvents",	&PythonAlgorithms::SegmentationResults::GetNumberOfBinaryEvents)
+        .def_property_readonly("FilteredSignal",		&PythonAlgorithms::SegmentationResults::GetFilteredSignal)
+        .def_property_readonly("SegmentedLog",			&PythonAlgorithms::SegmentationResults::GetSegmentedLog)
+        .def_property_readonly("NoiseVariance",			&PythonAlgorithms::SegmentationResults::GetNoiseVariance)
+        .def_property_readonly("JumpSequenceVariance",	&PythonAlgorithms::SegmentationResults::GetJumpSequenceVariance)
+        .def_property_readonly("SegmentDensity",		&PythonAlgorithms::SegmentationResults::GetSegmentDensity)
+        .def_property_readonly("Iterations",			&PythonAlgorithms::SegmentationResults::GetIterations)
+        .def_property_readonly("Error",					&PythonAlgorithms::SegmentationResults::GetError);
 
     #ifdef VERSION_INFO
         m.attr("__version__") = VERSION_INFO;

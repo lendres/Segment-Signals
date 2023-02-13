@@ -1,37 +1,39 @@
-﻿#ifndef SEGMENTATIONRESULTS_H
-#define SEGMENTATIONRESULTS_H
+﻿#ifndef SEGMENTATIONRESULTSPY_H
+#define SEGMENTATIONRESULTSPY_H
 
-namespace Algorithms
+#include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
+#include "SegmentationResults.h"
+
+namespace py = pybind11;
+
+namespace PythonAlgorithms
 {
 	class SegmentationResults
 	{
 		private:
-			int			_signalLength;
-			double*		_binaryEventSequence			= 0;
-			int			_numberOfBinaryEvents;
-			double*		_filteredSignal					= 0;
-			double*		_segmentedLog					= 0;
-			double*		_noiseVariance					= 0;
-			double		_jumpSequenceVariance;
-			double		_segmentDensity;
-			int			_iterations;
-			int			_error;
+			int						_signalLength;
+			py::array_t<double>		_binaryEventSequence;
+			int						_numberOfBinaryEvents;
+			py::array_t<double>		_filteredSignal;
+			py::array_t<double>		_segmentedLog;
+			py::array_t<double>		_noiseVariance;
+			double					_jumpSequenceVariance;
+			double					_segmentDensity;
+			int						_iterations;
+			int						_error;
 
 		public:
 			/// <summary>
+			/// Default constructor.
+			/// </summary>
+			SegmentationResults();
+			
+			/// <summary>
 			/// Constructor.
 			/// </summary>
-			/// <param name="signalLength">Length of the input signal.  The output sequences are the name length.</param>
-			/// <param name="binaryEventSequence">Binary event sequence.</param>
-			/// <param name="numberOfBinaryEvents">Number of binary events found (number of "1"s found in binary event sequence).</param>
-			/// <param name="filteredSignal">Filtered signal.</param>
-			/// <param name="segmentedLog">Segmented log.</param>
-			/// <param name="noiseVariance">Noise variance.</param>
-			/// <param name="jumpSequenceVariance">Jump sequence variance.</param>
-			/// <param name="segmentDensity">Segment density (ratio of events to total entries in binary event sequence).</param>
-			/// <param name="iterations">Number of iterations performed.</param>
-			/// <param name="error">Error flag.</param>
-			SegmentationResults(int signalLength, double binaryEventSequence[], int numberOfBinaryEvents, double filteredSignal[], double segmentedLog[], double noiseVariance[], double jumpSequenceVariance, double segmentDensity, int iterations, int error);
+			/// <param name="segmentationResults">SegmentationResults which will be converted for use in Python.</param>
+			SegmentationResults(Algorithms::SegmentationResults* segmentationResults);
 
 			/// <summary>
 			/// destructor.
@@ -47,7 +49,7 @@ namespace Algorithms
 			/// <summary>
 			/// Array that contains 1s at segmented log boundaries and 0s elsewhere.
 			/// </summary>
-			double* GetBinaryEventSequence();
+			py::array_t<double> GetBinaryEventSequence();
 
 			/// <summary>
 			/// Number of binary event sequences detected (number of "1"s in the BinaryEventSequence array).
@@ -57,17 +59,17 @@ namespace Algorithms
 			/// <summary>
 			/// Filtered estimate of the signal.
 			/// </summary>
-			double* GetFilteredSignal();
+			py::array_t<double> GetFilteredSignal();
 
 			/// <summary>
 			/// Average of filter log for each segment.
 			/// </summary>
-			double* GetSegmentedLog();
+			py::array_t<double> GetSegmentedLog();
 
 			/// <summary>
 			/// Estimate noise variance.
 			/// </summary>
-			double* GetNoiseVariance();
+			py::array_t<double> GetNoiseVariance();
 
 			/// <summary>
 			/// Estimated variance of the jump sequence.

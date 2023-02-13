@@ -8,7 +8,7 @@ sourceDirector = "..\\CPP Static Library\\"
 
 sfc_module = Extension(
     "SegmentSignalPy",
-    sources=["module.cpp", sourceDirector+"SegmentSignalFunctions.cpp", sourceDirector+"SegmentationResults.cpp", sourceDirector+"SegmentSignal.cpp"],
+    sources=["module.cpp", "SegmentationResultsPy.cpp", sourceDirector+"SegmentSignalFunctions.cpp", sourceDirector+"SegmentationResults.cpp", sourceDirector+"SegmentSignal.cpp"],
     include_dirs=[pybind11.get_include(), sourceDirector],
     language="c++",
     extra_compile_args=[],

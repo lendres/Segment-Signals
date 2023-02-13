@@ -2,8 +2,10 @@
 
 namespace Algorithms
 {
-	SegmentationResults::SegmentationResults(double binaryEventSequence[], int numberOfBinaryEvents, double filteredSignal[], double segmentedLog[], double noiseVariance[], double jumpSequenceVariance, double segmentDensity, int iterations, int error)
+	SegmentationResults::SegmentationResults(int signalLength, double binaryEventSequence[], int numberOfBinaryEvents, double filteredSignal[], double segmentedLog[], double noiseVariance[], double jumpSequenceVariance, double segmentDensity, int iterations, int error)
 	{
+		_signalLength			= signalLength;
+
 		_binaryEventSequence	= binaryEventSequence;
 		_numberOfBinaryEvents	= numberOfBinaryEvents;
 		_filteredSignal			= filteredSignal;
@@ -25,6 +27,11 @@ namespace Algorithms
 			delete _segmentedLog;
 			delete _noiseVariance;
 		}
+	}
+
+	int SegmentationResults::GetSignalLength()
+	{
+		return _signalLength;
 	}
 
 	double* SegmentationResults::GetBinaryEventSequence()

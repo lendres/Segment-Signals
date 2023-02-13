@@ -45,7 +45,7 @@ namespace Algorithms
 		// Function call to the C DLL.
 		::SegmentSignal(signal, signalLength, threshold, jumpSequenceWindowSize, noiseVarianceWindowSize, (int)noiseVarianceEstimateMethod, maxSMLRIterations, Q, numberOfBinaryEvents, FLTLOG, SEGLOG, R, jumpSequenceVariance, segmentDensity, iterations, error);
 
-		return new SegmentationResults(Q, numberOfBinaryEvents, FLTLOG, SEGLOG, R, jumpSequenceVariance, segmentDensity, iterations, error);
+		return new SegmentationResults(signalLength, Q, numberOfBinaryEvents, FLTLOG, SEGLOG, R, jumpSequenceVariance, segmentDensity, iterations, error);
 	}
 
 	SegmentationResults* SegmentSignal::Segment(vector<double> signal, double threshold, int jumpSequenceWindowSize, int noiseVarianceWindowSize)
@@ -86,7 +86,7 @@ namespace Algorithms
 		// Function call to the C DLL.
 		::SegmentSignal(signalToPass, signalLength, threshold, jumpSequenceWindowSize, noiseVarianceWindowSize, estimateMethod, maxSMLRIterations, Q, numberOfBinaryEvents, FLTLOG, SEGLOG, R, jumpSequenceVariance, segmentDensity, iterations, error);
 
-		return new SegmentationResults(Q, numberOfBinaryEvents, FLTLOG, SEGLOG, R, jumpSequenceVariance, segmentDensity, iterations, error);
+		return new SegmentationResults(signalLength, Q, numberOfBinaryEvents, FLTLOG, SEGLOG, R, jumpSequenceVariance, segmentDensity, iterations, error);
 	}
 
 	vector<vector<int>>* SegmentSignal::FindSignificantZones(double binaryEvents[], double xData[], int signalLength, double threshold)
