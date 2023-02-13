@@ -58,6 +58,11 @@ namespace PythonAlgorithms
 	{
 	}
 
+	int SegmentationResults::GetSignalLength()
+	{
+		return _signalLength;
+	}
+
 	py::array_t<double> SegmentationResults::GetBinaryEventSequence()
 	{
 		return _binaryEventSequence;
