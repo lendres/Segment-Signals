@@ -44,6 +44,7 @@ src/C DLL/Win32
 Debug/
 SegmentSignalPy.egg-info/
 build/
+__pycache__
 
 # User Project Files
 *.user
