@@ -3,6 +3,7 @@
 #include <math.h>
 #include <windows.h>
 #include <malloc.h>
+#include <stdexcept>
 
 // Original function name: LOGSEG
 void SegmentSignal(double LOG[], int NSAMPS, double F, int ORDER, int ORDER1, int RMODE, int NITER, double Q[], int& NQ, double FLTLOG[], double SEGLOG[], double R[], double& C, double& D, int& NACT, int& IER)
@@ -51,6 +52,12 @@ void SegmentSignal(double LOG[], int NSAMPS, double F, int ORDER, int ORDER1, in
 	//		IER > 0 ==> Logarithm argument became zero at sample number IER during the calculation of
 	//			likelihood ratios in SingleMostLikelihoodReplacement.  There may be more samples of this type which may give rise
 	//			to this problem.  Edit/rescale data values and rerun.
+
+	// Check input.
+	if (ORDER > NSAMPS || ORDER1 > NSAMPS)
+	{
+		throw std::runtime_error("SegmentSignal Error: The window sizes cannot exceed the signal length.");
+	}
 	
 	// Intermediate work arrays.
 	double* WORK1 = (double*)malloc(NSAMPS * sizeof(double));
