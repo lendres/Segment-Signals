@@ -35,53 +35,57 @@ class TestSegmentSignal(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        # Columns that are in the input file.  The first two are input to the function, the last three are the known solution.
+        names       = ["Depth", "Log", "SegmentedLog", "EventSequence", "FilteredLog"]
+        cls.data   = pd.read_csv(cls.inputFile, sep="\t", header=None, names=names)
 
 
     def setUp(self):
         """
         Set up function that runs before each test.
         """
-        # Columns that are in the input file.  The first two are input to the function, the last three are the known solution.
-        names       = ["Depth", "Log", "SegmentedLog", "EventSequence", "FilteredLog"]
-        self.data   = pd.read_csv(self.inputFile, sep="\t", header=None, names=names)
+        self.segmenter = SegmentSignal()
+        self.segmenter.Segment(list(self.data["Log"].values), self.f, self.order, self.order1, NoiseVarianceEstimateMethod.Point)
+        self.results = self.segmenter.results
 
 
     def testScalarResults(self):
-        results   = SegmentSignal(list(self.data["Log"].values), self.f, self.order, self.order1, NoiseVarianceEstimateMethod.Point)
-
-        self.assertAlmostEqual(results.SegmentDensity, self.d_solution, places=5)
+        self.assertAlmostEqual(self.results.SegmentDensity, self.d_solution, places=5)
         # The variance of the jump sequence is not correct.  The reason is unknown.  See "SegmentSignalUnitTests.cs".
         #self.assertAlmostEqual(results.JumpSequenceVariance, self.c_solution, places=3)
 
 
     def testArrayResults(self):
-        results   = SegmentSignal(list(self.data["Log"].values), self.f, self.order, self.order1, NoiseVarianceEstimateMethod.Point)
-
         delta = 0.3
-        for i in range(results.SignalLength):
-            self.assertAlmostEqual(results.SegmentedLog[i], self.data["SegmentedLog"].loc[i], delta=delta)
+        for i in range(self.results.SignalLength):
+            self.assertAlmostEqual(self.results.SegmentedLog[i], self.data["SegmentedLog"].loc[i], delta=delta)
             #self.assertAlmostEqual(results.FilteredSignal[i], self.data["FilteredLog"].loc[i], delta=delta)
 
 
     def testGeneratePlots(self):
         # This plots up data to review.  It is useful for debugging, but generally should be required.
         # Comment out the "skip" decorator to see the plots.
-        results   = SegmentSignal(list(self.data["Log"].values), self.f, self.order, self.order1, NoiseVarianceEstimateMethod.Point)
+        x = self.data["Depth"]
 
         axis = plt.gca()
-        x = range(results.SignalLength)
-        axis.plot(x, results.FilteredSignal, color="red", label="Result Filtered Signal")
+        axis.plot(x, self.results.FilteredSignal, color="red", label="Result Filtered Signal")
         axis.plot(x, self.data["FilteredLog"], label="Input Filtered Signal", linestyle=(0, (5, 5)), linewidth=2)
         axis.legend(loc="lower right", bbox_to_anchor=(1, 0), bbox_transform=axis.transAxes)
+        axis.grid()
         plt.show()
 
         axis = plt.gca()
-        x = range(results.SignalLength)
-        axis.plot(x, results.SegmentedLog, color="red", label="Result Segmented Signal")
+        axis.plot(x, self.results.SegmentedLog, color="red", label="Result Segmented Signal")
         axis.plot(x, self.data["SegmentedLog"], label="Input Segmented Signal", linestyle=(0, (5, 5)), linewidth=2)
         axis.legend(loc="lower right", bbox_to_anchor=(1, 0), bbox_transform=axis.transAxes)
+        axis.grid()
         plt.show()
+
+
+    def testFindSignificantZones(self):
+        self.segmenter.FindSignificantZones(self.data["Depth"], 1, False)
+        print("\nSignificant zones:\n", self.segmenter.significantZonesIndices)
+        print("\nSignficant Zone X values", self.segmenter.GetSignifcationZoneValues(self.data["Depth"]))
 
 
 if __name__ == "__main__":

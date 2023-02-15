@@ -6,9 +6,12 @@ import numpy                                     as np
 from   SegmentSignalPy                           import Segment
 from   SegmentSignalPy                           import SegmentationResults
 from   NoiseVarianceEstimateMethod               import NoiseVarianceEstimateMethod
+from   SegmentSignalPy                           import FindSignificantZones
 
 class SegmentSignal():
-    results     = None
+    results                     = None
+    significantZonesIndices     = None
+
 
     def Segment(
             self,
@@ -73,11 +76,29 @@ class SegmentSignal():
         return results
 
 
+    def FindSignificantZones(self, xData, threshold, includeBoundries=False):
+        if self.results is None:
+            raise Exception("There are no results.  You must first run \"Segment\".")
+
+        self.significantZonesIndices = FindSignificantZones(self.results.BinaryEventSequence, xData, threshold, includeBoundries)
+
+
+    def GetSignifcationZoneValues(self, xData):
+        return [[xData[pointSet[0]], xData[pointSet[1]]] for pointSet in self.significantZonesIndices]
+
+
+    @property
+    def NumberOfSignificantZones(self):
+        return len(self.significantZonesIndices)
+
+
     def PlotFileteredSignal(self, axis, xData, **kwargs):
         axis.plot(xData, self.results.FilteredSignal, color="cyan", label="Filtered Signal", **kwargs)
 
+
     def PlotSegmentedSignal(self, axis, xData, **kwargs):
         axis.plot(xData, self.results.SegmentedLog, color="red", label="Segmented Signal", **kwargs)
+
 
     def PlotBinaryEvents(self, axis, xData, **kwargs):
         ticks = axis.get_yticks()
