@@ -7,7 +7,7 @@
 	{
 		#region Members
 
-		private double[]	_binaryEventSequence;
+		private int[]		_binaryEventSequence;
 		private int			_numberOfBinaryEvents;
 		private double[]	_filteredSignal;
 		private double[]	_segmentedLog;
@@ -33,7 +33,7 @@
 		/// <param name="segmentDensity">Segment density (ratio of events to total entries in binary event sequence).</param>
 		/// <param name="iterations">Number of iterations performed.</param>
 		/// <param name="error">Error flag.</param>
-		public SegmentationResults(double[] binaryEventSequence, int numberOfBinaryEvents, double[] filteredSignal, double[] segmentedLog, double[] noiseVariance, double jumpSequenceVariance, double segmentDensity, int iterations, int error)
+		public SegmentationResults(int[] binaryEventSequence, int numberOfBinaryEvents, double[] filteredSignal, double[] segmentedLog, double[] noiseVariance, double jumpSequenceVariance, double segmentDensity, int iterations, int error)
 		{
 			_binaryEventSequence	= binaryEventSequence;
 			_numberOfBinaryEvents	= numberOfBinaryEvents;
@@ -54,7 +54,7 @@
 		/// <summary>
 		/// Array that contains 1s at segmented log boundaries and 0s elsewhere.
 		/// </summary>
-		public double[] BinaryEventSequence
+		public int[] BinaryEventSequence
 		{
 			get
 			{

@@ -13,7 +13,7 @@ namespace PythonAlgorithms
 	{
 		private:
 			int						_signalLength;
-			py::array_t<double>		_binaryEventSequence;
+			py::array_t<int>		_binaryEventSequence;
 			int						_numberOfBinaryEvents;
 			py::array_t<double>		_filteredSignal;
 			py::array_t<double>		_segmentedLog;
@@ -49,7 +49,7 @@ namespace PythonAlgorithms
 			/// <summary>
 			/// Array that contains 1s at segmented log boundaries and 0s elsewhere.
 			/// </summary>
-			py::array_t<double> GetBinaryEventSequence();
+			py::array_t<int> GetBinaryEventSequence();
 
 			/// <summary>
 			/// Number of binary event sequences detected (number of "1"s in the BinaryEventSequence array).

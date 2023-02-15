@@ -37,7 +37,7 @@ namespace Algorithms
 
 
 		// Create the output arrays.  After being populated by the call to the algorithm they are grouped, stored, and returned in the SegmenationResults data structure.
-		double* Q		= new double[signalLength];		// Binary event sequence.
+		int* Q			= new int[signalLength];		// Binary event sequence.
 		double* FLTLOG	= new double[signalLength];		// Filtered signal.
 		double* SEGLOG	= new double[signalLength];		// Segmented log.
 		double* R		= new double[signalLength];		// Noise variance.
@@ -75,7 +75,7 @@ namespace Algorithms
 		}
 
 		// Create the output arrays.  After being populated by the call to the algorithm they are grouped, stored, and returned in the SegmenationResults data structure.
-		double* Q		= new double[signalLength];		// Binary event sequence.
+		int* Q			= new int[signalLength];		// Binary event sequence.
 		double* FLTLOG	= new double[signalLength];		// Filtered signal.
 		double* SEGLOG	= new double[signalLength];		// Segmented log.
 		double* R		= new double[signalLength];		// Noise variance.
@@ -89,14 +89,14 @@ namespace Algorithms
 		return new SegmentationResults(signalLength, Q, numberOfBinaryEvents, FLTLOG, SEGLOG, R, jumpSequenceVariance, segmentDensity, iterations, error);
 	}
 
-	vector<vector<int>>* SegmentSignal::FindSignificantZones(double binaryEvents[], double xData[], int signalLength, double threshold)
+	vector<array<int, 2>>* SegmentSignal::FindSignificantZones(double binaryEvents[], double xData[], int signalLength, double threshold)
 	{
 		return FindSignificantZones(binaryEvents, xData, signalLength, threshold, false);
 	}
 
-	vector<vector<int>>* SegmentSignal::FindSignificantZones(double binaryEvents[], double xData[], int signalLength, double threshold, bool includeBoundries)
+	vector<array<int, 2>>* SegmentSignal::FindSignificantZones(double binaryEvents[], double xData[], int signalLength, double threshold, bool includeBoundries)
 	{
-		vector<vector<int>>* significantZones = new vector<vector<int>>	();
+		vector<array<int, 2>>* significantZones = new vector<array<int, 2>>();
 
 		// Find the first "0" entry which will mark the beginning of a zone.
 		int zoneStart = FindNextZero(binaryEvents, signalLength, 0);
@@ -147,7 +147,7 @@ namespace Algorithms
 		return currentIndex;
 	}
 
-	void SegmentSignal::CheckIfValidZone(double xData[], double threshold, bool includeBoundries, vector<vector<int>>* significantZones, int startIndex, int endIndex)
+	void SegmentSignal::CheckIfValidZone(double xData[], double threshold, bool includeBoundries, vector<array<int, 2>>* significantZones, int startIndex, int endIndex)
 	{
 		// Check to see if the threshold is met.  If it met, we will store the section
 		// as a significant zone.  If the threshold is not met, then the zone is not long
@@ -156,11 +156,11 @@ namespace Algorithms
 		{
 			if (includeBoundries)
 			{
-				significantZones->push_back({startIndex-1, endIndex+1});
+				significantZones->push_back({ {startIndex-1, endIndex+1} });
 			}
 			else
 			{
-				significantZones->push_back({startIndex, endIndex});
+				significantZones->push_back({{startIndex, endIndex}});
 			}
 		}
 	}

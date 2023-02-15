@@ -14,7 +14,7 @@ namespace Algorithms
 		#region DLL Imports
 
 		[DllImport("SegmentSignalC.dll", CallingConvention = CallingConvention.Cdecl)]
-		private static extern void SegmentSignalWrapper(double[] LOG, int NSAMPS, double F, int ORDER, int ORDER1, int RMODE, int NITER, double[] Q, out int NQ, double[] FLTLOG, double[] SEGLOG, double[] R, out double C, out double D, out int NACT, out int IER);
+		private static extern void SegmentSignalWrapper(double[] LOG, int NSAMPS, double F, int ORDER, int ORDER1, int RMODE, int NITER, int[] Q, out int NQ, double[] FLTLOG, double[] SEGLOG, double[] R, out double C, out double D, out int NACT, out int IER);
 
 		#endregion
 
@@ -97,7 +97,7 @@ namespace Algorithms
 			signal.CopyTo(signalToPass, 0);
 
 			// Create the output arrays.  After being populated by the call to the algorithm they are grouped, stored, and returned in the SegmenationResults data structure.
-			double[] Q		= new double[signalToPass.Length];
+			int[] Q			= new int[signalToPass.Length];
 			double[] FLTLOG = new double[signalToPass.Length];
 			double[] SEGLOG	= new double[signalToPass.Length];
 			double[] R		= new double[signalToPass.Length];
@@ -187,7 +187,7 @@ namespace Algorithms
 			signal.CopyTo(signalToPass, 0);
 
 			// Create the output arrays.  After being populated by the call to the algorithm they are grouped, stored, and returned in the SegmenationResults data structure.
-			double[] Q		= new double[signal.Count];
+			int[] Q			= new int[signal.Count];
 			double[] FLTLOG = new double[signal.Count];
 			double[] SEGLOG	= new double[signal.Count];
 			double[] R		= new double[signal.Count];
@@ -222,7 +222,7 @@ namespace Algorithms
 		/// <param name="xData">Independent values associated with the log/signal fed to the Segment algorithm and produced the SegmentationResults.</param>
 		/// <param name="threshold">Length a zone must be to be consider "significant."  Zones shorter than this are ignored.</param>
 		/// <returns>A List of arrays of length 2 indicating the zones.  Each entry in the List is a pair indicating the starting and ending index of one significant zone.</returns>
-		public static List<int[]> FindSignificantZones(double[] binaryEvents, double[] xData, double threshold)
+		public static List<int[]> FindSignificantZones(int[] binaryEvents, double[] xData, double threshold)
 		{
 			return FindSignificantZones(binaryEvents, xData, threshold, false);
 		}
@@ -243,7 +243,7 @@ namespace Algorithms
 		/// <param name="threshold">Length a zone must be to be consider "significant."  Zones shorter than this are ignored.</param>
 		/// <param name="includeBoundries">If true, the end data points are added as part of the zone.  Does not change how zones are found.</param>
 		/// <returns>A List of arrays of length 2 indicating the zones.  Each entry in the List is a pair indicating the starting and ending index of one significant zone.</returns>
-		public static List<int[]> FindSignificantZones(double[] binaryEvents, double[] xData, double threshold, bool includeBoundries)
+		public static List<int[]> FindSignificantZones(int[] binaryEvents, double[] xData, double threshold, bool includeBoundries)
 		{
 			List<int[]> significantZones = new List<int[]>();
 
@@ -297,7 +297,7 @@ namespace Algorithms
 		/// <param name="binaryEvents">Binary event sequence array.</param>
 		/// <param name="currentIndex">Index to start scanning from.</param>
 		/// <returns>Index of next zero.</returns>
-		private static int FindNextZero(double[] binaryEvents, int currentIndex)
+		private static int FindNextZero(int[] binaryEvents, int currentIndex)
 		{
 			// Find the first zero.
 			while (binaryEvents[currentIndex] == 1 && currentIndex < binaryEvents.Length-1)

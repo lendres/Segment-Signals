@@ -148,7 +148,7 @@ namespace CSharpUnitTests
 			// Call to separate the signal.
 			SegmentationResults results = SegmentSignal.Segment(_data[(int)InputType.Log], _f, _order, _order1, _rmode, _niter);
 
-			double[] binaryEvents		= results.BinaryEventSequence;
+			int[] binaryEvents		= results.BinaryEventSequence;
 			int numberOfSolutionEvents	= 0;
 
 			// Count the number of events in the solution.
@@ -174,12 +174,12 @@ namespace CSharpUnitTests
 		{
 			// Initial data sets / input.
 			//                                      Zone 1                        Zone 2
-			double[]	baseData	= new double[] {0, 0, 0, 1, 0, 1, 1, 0, 0, 1,  0,  0,  0,  1,  1,  0,  0};
+			int[]		baseData	= new int[] {0, 0, 0, 1, 0, 1, 1, 0, 0, 1,  0,  0,  0,  1,  1,  0,  0};
 			double[]	xData		= new double[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
 			double		threshold	= 1.5;
 
 			// Working and output data.
-			double[] workingData = new double[baseData.Length];
+			int[] workingData = new int[baseData.Length];
 			List<int[]> results;
 
 			// Copy the base line data set to the working data set so it can be modified.

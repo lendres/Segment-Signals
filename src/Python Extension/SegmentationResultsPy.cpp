@@ -10,7 +10,7 @@ namespace PythonAlgorithms
 		_iterations					= 0;
 		_error						= 0;
 
-		_binaryEventSequence		= py::array_t<double>();
+		_binaryEventSequence		= py::array_t<int>();
 		_filteredSignal				= py::array_t<double>();
 		_segmentedLog				= py::array_t<double>();
 		_noiseVariance				= py::array_t<double>();
@@ -33,7 +33,7 @@ namespace PythonAlgorithms
 		_noiseVariance				= py::array_t<double>(_signalLength);
 
 		// Get pointers to the results.  The data is private, we use the access functions.
-		double* binaryEventSequence = segmentationResults->GetBinaryEventSequence();
+		int* binaryEventSequence	= segmentationResults->GetBinaryEventSequence();
 		double* filteredSignal		= segmentationResults->GetFilteredSignal();
 		double* segmentedLog		= segmentationResults->GetSegmentedLog();
 		double* noiseVariance		= segmentationResults->GetNoiseVariance();
@@ -63,7 +63,7 @@ namespace PythonAlgorithms
 		return _signalLength;
 	}
 
-	py::array_t<double> SegmentationResults::GetBinaryEventSequence()
+	py::array_t<int> SegmentationResults::GetBinaryEventSequence()
 	{
 		return _binaryEventSequence;
 	}

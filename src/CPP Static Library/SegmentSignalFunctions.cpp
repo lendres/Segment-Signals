@@ -6,7 +6,7 @@
 #include <stdexcept>
 
 // Original function name: LOGSEG
-void SegmentSignal(double LOG[], int NSAMPS, double F, int ORDER, int ORDER1, int RMODE, int NITER, double Q[], int& NQ, double FLTLOG[], double SEGLOG[], double R[], double& C, double& D, int& NACT, int& IER)
+void SegmentSignal(double LOG[], int NSAMPS, double F, int ORDER, int ORDER1, int RMODE, int NITER, int Q[], int& NQ, double FLTLOG[], double SEGLOG[], double R[], double& C, double& D, int& NACT, int& IER)
 {
 	// Function:
 	// Maximum Likelihood Segmentation
@@ -81,7 +81,6 @@ void SegmentSignal(double LOG[], int NSAMPS, double F, int ORDER, int ORDER1, in
 	bool CONV	= false;
 	int ITER	= 0;
 
-	double FLPONE	= 1.0;
 	double MEAN		= 0.0;
 	double LBOUND	= 0.1E-04;
 	double UBOUND	= 0.98;
@@ -107,7 +106,7 @@ void SegmentSignal(double LOG[], int NSAMPS, double F, int ORDER, int ORDER1, in
 		// Initialize event sequence Q.
 		for (int j = 0; j < NSAMPS; j++)
 		{
-			Q[j] = FLPONE;
+			Q[j] = 1;
 		}
 		
 		// Invoke fixed interval optimal smoother to estimate the jump sequence, residual state, and its variance.
@@ -177,7 +176,7 @@ void SegmentSignal(double LOG[], int NSAMPS, double F, int ORDER, int ORDER1, in
 }
 
 // Original function name: SMLR
-void SingleMostLikelihoodReplacement(double G[], double S[], double C, int NSAMPS, double D, double Q[], bool& CONV, int& IER)
+void SingleMostLikelihoodReplacement(double G[], double S[], double C, int NSAMPS, double D, int Q[], bool& CONV, int& IER)
 {
 	// Function:
 	// Single most likelihood replacement detector for updating an event sequence Q(k).
@@ -249,19 +248,12 @@ void SingleMostLikelihoodReplacement(double G[], double S[], double C, int NSAMP
 	else
 	{
 		// Reset event.
-		if (Q[INDSTR] > 0.01)
-		{
-			Q[INDSTR] = 0.0;
-		}
-		else
-		{
-			Q[INDSTR] = 1.0;
-		}
+		Q[INDSTR] = !Q[INDSTR];
 	}
 }
 
 // Original function name: THOLD
-void Threshold(double JMPSEQ[], double C, double F, int NSAMPS, double Q[], double& D)
+void Threshold(double JMPSEQ[], double C, double F, int NSAMPS, int Q[], double& D)
 {
 	// Function:
 	// Threshold procedure to estimate an initial event sequence.
@@ -286,12 +278,12 @@ void Threshold(double JMPSEQ[], double C, double F, int NSAMPS, double Q[], doub
 	{
  		if (F*C <= JMPSEQ[i]*JMPSEQ[i])
 		{
-			Q[i]	= 1.0;
+			Q[i]	= 1;
 			D		= D + 1.0;
 		}
 		else
 		{
-			Q[i] = 0.0;
+			Q[i] = 0;
 		}
 	}
 
@@ -355,7 +347,7 @@ void MovingAverage(double ARR1[], int NSAMPS, int ORDER, double ARR2[])
 }
 
 // Original function name: KALMAN
-void KalmanFilter(double LOG[], double Q[], double C, double R[], int NSAMPS, double GAIN[], double ZTLT[], double ETA[], double STATE[])
+void KalmanFilter(double LOG[], int Q[], double C, double R[], int NSAMPS, double GAIN[], double ZTLT[], double ETA[], double STATE[])
 {
 	// Function:
 	// One dimensional KalmanFilter filter.
@@ -381,7 +373,7 @@ void KalmanFilter(double LOG[], double Q[], double C, double R[], int NSAMPS, do
 	// Init state and its variance.
 	double VAR = 0.0;
 
-	if (Q[0] > 0.1)
+	if (Q[0])
 	{
 		VAR = C;
 	}
@@ -395,7 +387,7 @@ void KalmanFilter(double LOG[], double Q[], double C, double R[], int NSAMPS, do
 	// Estimate state and its variance (one dim KalmanFilter filter).
 	for (int i = 1; i < NSAMPS; i++)
 	{
-		if (Q[i] > 0.1)
+		if (Q[i])
 		{
 			VAR = VAR + C;
 		}
@@ -409,7 +401,7 @@ void KalmanFilter(double LOG[], double Q[], double C, double R[], int NSAMPS, do
 }
 
 // Original function name: FIOS
-void FixedIntervalOptimalSmoother(double Q[], int NSAMPS, double C, double ARR1[], double ARR2[], double ARR3[])
+void FixedIntervalOptimalSmoother(int Q[], int NSAMPS, double C, double ARR1[], double ARR2[], double ARR3[])
 {
 	// Function:
 	// Fixed interval optimal smoother to estimate the jump sequence, residual state and its variance.
@@ -444,7 +436,7 @@ void FixedIntervalOptimalSmoother(double Q[], int NSAMPS, double C, double ARR1[
 }
 
 // Original function name: DATAVG
-void AverageArraySegments(double ARR[], double Q[], int NSAMPS, double AVGOUT[])
+void AverageArraySegments(double ARR[], int Q[], int NSAMPS, double AVGOUT[])
 {
 	// Function:
 	// Data array to be averaged within segments implied by an event sequence Q.
@@ -480,7 +472,7 @@ void AverageArraySegments(double ARR[], double Q[], int NSAMPS, double AVGOUT[])
 }
 
 // Original function name: UPDNSE
-void DeglitchAndEstimateNoiseVariance(double LOG[], double Q[], int NSAMPS, int RMODE, double WORK1[], double R[])
+void DeglitchAndEstimateNoiseVariance(double LOG[], int Q[], int NSAMPS, int RMODE, double WORK1[], double R[])
 {
 	// Function:
 	// Deglitch and re-estimate noise variance.
@@ -555,7 +547,7 @@ void DeglitchAndEstimateNoiseVariance(double LOG[], double Q[], int NSAMPS, int 
 }
 
 // Original function name: GETSEG
-void GetSegment(double LOG[], double Q[], int NSAMPS, int SEGSTR, int& SEGEND, int& SEGLEN, double& SEGAVG, bool& endofarray)
+void GetSegment(double LOG[], int Q[], int NSAMPS, int SEGSTR, int& SEGEND, int& SEGLEN, double& SEGAVG, bool& endofarray)
 {
 	// Function:
 	// Identifies a segment within a given event sequence.
@@ -590,7 +582,7 @@ void GetSegment(double LOG[], double Q[], int NSAMPS, int SEGSTR, int& SEGEND, i
 		SEGAVG = SEGAVG + LOG[SEGEND];
 		SEGEND = SEGEND + 1;
 	}
-	while (Q[SEGEND] < 0.5 && SEGEND < NSAMPS);
+	while (!Q[SEGEND] && SEGEND < NSAMPS);
 
 	if (SEGEND == NSAMPS)
 	{
@@ -608,7 +600,7 @@ void GetSegment(double LOG[], double Q[], int NSAMPS, int SEGSTR, int& SEGEND, i
 }
 
 // Original function name: DEGLCH
-void Deglitch(int NSAMPS, double Q[])
+void Deglitch(int NSAMPS, int Q[])
 {
 	// Function:
 	// Deglitches all the spiky zones in the event sequence Q.
@@ -652,7 +644,7 @@ void Deglitch(int NSAMPS, double Q[])
 }
 
 // Original function name: GETSPK
-void GetSpikeyZone(double Q[], int NSAMPS, int SEGSTR, int& SEGEND, bool& endofarray)
+void GetSpikeyZone(int Q[], int NSAMPS, int SEGSTR, int& SEGEND, bool& endofarray)
 {
 	// Function:
 	// Identifies a zone of spikes.  A spiky zone is defined by 0,1,1,...,1,0.
@@ -672,7 +664,7 @@ void GetSpikeyZone(double Q[], int NSAMPS, int SEGSTR, int& SEGEND, bool& endofa
 	//		false: Not at end of the array.
 
 	SEGEND = SEGSTR;
-	if (Q[SEGEND] < 0.5)
+	if (!Q[SEGEND])
 	{
 		// Modified from original paper.  The "if" statement below was not part of the original algorithm.
 		// It seems there can be a case where Q[i] < 0.5 for SEGEND = NSAMPS that causes us to miss flagging the end
@@ -691,7 +683,7 @@ void GetSpikeyZone(double Q[], int NSAMPS, int SEGSTR, int& SEGEND, bool& endofa
 	{
 		SEGEND++;
 	}
-	while ((Q[SEGEND] > 0.5) && (SEGEND < NSAMPS));
+	while (Q[SEGEND] && (SEGEND < NSAMPS));
 
 	if (SEGEND >= NSAMPS)
 	{
@@ -702,7 +694,7 @@ void GetSpikeyZone(double Q[], int NSAMPS, int SEGSTR, int& SEGEND, bool& endofa
 }
 
 // Original function name: UPDDEN
-void EstimateEventDensity(double Q[], int NSAMPS, double& D, int& NQ)
+void EstimateEventDensity(int Q[], int NSAMPS, double& D, int& NQ)
 {
 	// Function:
 	// Estimates the event density for a given event sequence.

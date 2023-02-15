@@ -86,7 +86,7 @@ namespace UnitTests
 			// with some non-zero entries and then calculate what the expected result is.  The variable "q"
 			// is the array we will pass to the algorithm.  The other two "ones" and "index" are used to
 			// specify which entries are non-zero and count the number of non-zero entries, respectively.
-			double	q[20];
+			int		q[20];
 			int		ones[]	= {3, 5, 12, 16, 19};
 			int		index	= 0;
 
@@ -120,7 +120,7 @@ namespace UnitTests
 		// are not consecutive "1"s.
 		TEST_METHOD(DeglitchTest)
 		{
-			double input[]		= {1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1};
+			int input[]			= {1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1};
 			double solution[]	= {1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1};
 
 			Deglitch(14, input);
@@ -158,7 +158,7 @@ namespace UnitTests
 			int		niter	= 300;
 
 			// Output variables.
-			double	Q[_numberOfDataPoints];
+			int		Q[_numberOfDataPoints];
 			int		numberOfBinaryEvents;
 			double	FLTLOG[_numberOfDataPoints];
 			double	SEGLOG[_numberOfDataPoints];
@@ -220,7 +220,7 @@ namespace UnitTests
 			int		niter	= 300;
 
 			// Output.
-			double* Q		= new double[_largeDataSetSize];
+			int* Q			= new int[_largeDataSetSize];
 			int     numberOfBinaryEvents;
 			double* FLTLOG	= new double[_largeDataSetSize];
 			double* SEGLOG	= new double[_largeDataSetSize];
@@ -240,7 +240,7 @@ namespace UnitTests
 		}
 
 		// Write results to a file so that they can be viewed in another program (for example, Excel).
-		void WriteResultsFile(double inputlog[], double segmentedlog[], double eventsequence[], double filteredlog[])
+		void WriteResultsFile(double inputlog[], double segmentedlog[], int eventsequence[], double filteredlog[])
 		{
 			// Write a file that can be used for plotting, if desired.
 			// First open the file and check that it was opened.

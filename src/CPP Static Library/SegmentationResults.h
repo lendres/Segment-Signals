@@ -7,7 +7,7 @@ namespace Algorithms
 	{
 		private:
 			int			_signalLength;
-			double*		_binaryEventSequence			= 0;
+			int*		_binaryEventSequence			= 0;
 			int			_numberOfBinaryEvents;
 			double*		_filteredSignal					= 0;
 			double*		_segmentedLog					= 0;
@@ -31,7 +31,7 @@ namespace Algorithms
 			/// <param name="segmentDensity">Segment density (ratio of events to total entries in binary event sequence).</param>
 			/// <param name="iterations">Number of iterations performed.</param>
 			/// <param name="error">Error flag.</param>
-			SegmentationResults(int signalLength, double binaryEventSequence[], int numberOfBinaryEvents, double filteredSignal[], double segmentedLog[], double noiseVariance[], double jumpSequenceVariance, double segmentDensity, int iterations, int error);
+			SegmentationResults(int signalLength, int binaryEventSequence[], int numberOfBinaryEvents, double filteredSignal[], double segmentedLog[], double noiseVariance[], double jumpSequenceVariance, double segmentDensity, int iterations, int error);
 
 			/// <summary>
 			/// destructor.
@@ -47,7 +47,7 @@ namespace Algorithms
 			/// <summary>
 			/// Array that contains 1s at segmented log boundaries and 0s elsewhere.
 			/// </summary>
-			double* GetBinaryEventSequence();
+			int* GetBinaryEventSequence();
 
 			/// <summary>
 			/// Number of binary event sequences detected (number of "1"s in the BinaryEventSequence array).

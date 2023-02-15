@@ -96,7 +96,7 @@ namespace UnitTests
 
 			// Working and output data.
 			double		workingData[]	= {0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0};
-			vector<vector<int>>* results;
+			vector<array<int, 2>>* results;
 
 			// Copy the base line data set to the working data set so it can be modified.
 			std::copy(std::begin(baseData), std::end(baseData), std::begin(workingData));
