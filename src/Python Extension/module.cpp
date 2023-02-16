@@ -40,7 +40,7 @@ PythonAlgorithms::SegmentationResults* Segment(py::array_t<double> signalAsPyLis
 }
 
 
-py::array_t<int> FindSignificantZones(py::array_t<int> binaryEvents, py::array_t<double> xData, double threshold, bool includeBoundries)
+py::array_t<int> FindSignificantZones(py::array_t<int> binaryEvents, py::array_t<double> xData, double threshold, bool includeBoundaries)
 {
 	// Gets the information about the object and a pointer to the actual data (buffer).
 	py::buffer_info eventsInfo	= binaryEvents.request();
@@ -62,7 +62,7 @@ py::array_t<int> FindSignificantZones(py::array_t<int> binaryEvents, py::array_t
 
 	// Get the length of the array/list.  It is required for the lower level functions operation on C arrays.
 	int signalLength							= static_cast<int>(eventsInfo.shape[0]);
-	std::vector<std::array<int, 2>>* cppResults = Algorithms::SegmentSignal::FindSignificantZones(binaryEventsPointer, xDataPointer, signalLength, threshold, includeBoundries);
+	std::vector<std::array<int, 2>>* cppResults = Algorithms::SegmentSignal::FindSignificantZones(binaryEventsPointer, xDataPointer, signalLength, threshold, includeBoundaries);
 
 	size_t size					= cppResults->size();
 	py::array_t<int> pyResults	= py::array_t<int>(2*size);

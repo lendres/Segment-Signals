@@ -164,9 +164,9 @@ namespace Algorithms
 			/// <param name="xData">Independent values associated with the log/signal fed to the Segment algorithm and produced the SegmentationResults.</param>
 			/// <param name="signalLength">Input signal to be segmented.</param>
 			/// <param name="threshold">Length a zone must be to be consider "significant."  Zones shorter than this are ignored.</param>
-			/// <param name="includeBoundries">If true, the end data points are added as part of the zone.  Does not change how zones are found.</param>
+			/// <param name="includeBoundaries">If true, the end data points are added as part of the zone.  Does not change how zones are found.</param>
 			/// <returns>A vector of arrays of length 2 indicating the zones.  Each entry in the List is a pair indicating the starting and ending index of one significant zone.</returns>
-			static vector<array<int, 2>>* FindSignificantZones(int binaryEvents[], double xData[], int signalLength, double threshold, bool includeBoundries);
+			static vector<array<int, 2>>* FindSignificantZones(int binaryEvents[], double xData[], int signalLength, double threshold, bool includeBoundaries);
 
 		private:
 			/// <summary>
@@ -183,11 +183,11 @@ namespace Algorithms
 			/// </summary>
 			/// <param name="xData">Independent values associated with the log/signal fed to the Segment algorithm and produced the SegmentationResults.</param>
 			/// <param name="threshold">Length a zone must be to be consider "significant."  Zones shorter than this are ignored.</param>
-			/// <param name="includeBoundries">If true, the end data points are added as part of the zone.  Does not change how zones are found.</param>
+			/// <param name="includeBoundaries">If true, the end data points are added as part of the zone.  Does not change how zones are found.</param>
 			/// <param name="significantZones">List of significant zones.</param>
 			/// <param name="startIndex">Starting index of zone.</param>
 			/// <param name="endIndex">Ending index of the zone.</param>
-			static void CheckIfValidZone(double xData[], double threshold, bool includeBoundries, vector<array<int, 2>>* significantZones, int startIndex, int endIndex);
+			static void CheckIfValidZone(double xData[], double threshold, bool includeBoundaries, vector<array<int, 2>>* significantZones, int startIndex, int endIndex);
 
 	}; // End class.
 } // End namespace.

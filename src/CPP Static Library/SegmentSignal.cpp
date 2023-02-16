@@ -94,7 +94,7 @@ namespace Algorithms
 		return FindSignificantZones(binaryEvents, xData, signalLength, threshold, false);
 	}
 
-	vector<array<int, 2>>* SegmentSignal::FindSignificantZones(int binaryEvents[], double xData[], int signalLength, double threshold, bool includeBoundries)
+	vector<array<int, 2>>* SegmentSignal::FindSignificantZones(int binaryEvents[], double xData[], int signalLength, double threshold, bool includeBoundaries)
 	{
 		vector<array<int, 2>>* significantZones = new vector<array<int, 2>>();
 
@@ -105,7 +105,7 @@ namespace Algorithms
 		{
 			if (binaryEvents[currentIndex])
 			{
-				CheckIfValidZone(xData, threshold, includeBoundries, significantZones, zoneStart, currentIndex-1);
+				CheckIfValidZone(xData, threshold, includeBoundaries, significantZones, zoneStart, currentIndex-1);
 
 				// Scan for the start of the next potential section.
 				zoneStart = FindNextZero(binaryEvents, signalLength, currentIndex);
@@ -116,7 +116,7 @@ namespace Algorithms
 		// If the last entry of the binary events is zero, we need to handle the final section.
 		if (!binaryEvents[signalLength-1])
 		{
-			CheckIfValidZone(xData, threshold, includeBoundries, significantZones, zoneStart, signalLength-1);
+			CheckIfValidZone(xData, threshold, includeBoundaries, significantZones, zoneStart, signalLength-1);
 		}
 
 		// When including the boundaries (includeBoundaries==true), it is possible to have added data points before the beginning of the array
@@ -147,14 +147,14 @@ namespace Algorithms
 		return currentIndex;
 	}
 
-	void SegmentSignal::CheckIfValidZone(double xData[], double threshold, bool includeBoundries, vector<array<int, 2>>* significantZones, int startIndex, int endIndex)
+	void SegmentSignal::CheckIfValidZone(double xData[], double threshold, bool includeBoundaries, vector<array<int, 2>>* significantZones, int startIndex, int endIndex)
 	{
 		// Check to see if the threshold is met.  If it met, we will store the section
 		// as a significant zone.  If the threshold is not met, then the zone is not long
 		// enough so it is ignored and we scan ahead.
 		if (abs(xData[endIndex] - xData[startIndex]) > threshold)
 		{
-			if (includeBoundries)
+			if (includeBoundaries)
 			{
 				significantZones->push_back({ {startIndex-1, endIndex+1} });
 			}

@@ -241,9 +241,9 @@ namespace Algorithms
 		/// <param name="binaryEvents">Array of binary events (1s and 0s) which specify the boundaries of each zone.</param>
 		/// <param name="xData">Independent values associated with the log/signal fed to the Segment algorithm and produced the SegmentationResults.</param>
 		/// <param name="threshold">Length a zone must be to be consider "significant."  Zones shorter than this are ignored.</param>
-		/// <param name="includeBoundries">If true, the end data points are added as part of the zone.  Does not change how zones are found.</param>
+		/// <param name="includeBoundaries">If true, the end data points are added as part of the zone.  Does not change how zones are found.</param>
 		/// <returns>A List of arrays of length 2 indicating the zones.  Each entry in the List is a pair indicating the starting and ending index of one significant zone.</returns>
-		public static List<int[]> FindSignificantZones(int[] binaryEvents, double[] xData, double threshold, bool includeBoundries)
+		public static List<int[]> FindSignificantZones(int[] binaryEvents, double[] xData, double threshold, bool includeBoundaries)
 		{
 			List<int[]> significantZones = new List<int[]>();
 
@@ -259,7 +259,7 @@ namespace Algorithms
 			{
 				if (binaryEvents[currentIndex] == 1)
 				{
-					CheckIfValidZone(xData, threshold, includeBoundries, significantZones, zoneStart, currentIndex-1);
+					CheckIfValidZone(xData, threshold, includeBoundaries, significantZones, zoneStart, currentIndex-1);
 
 					// Scan for the start of the next potential section.
 					zoneStart		= FindNextZero(binaryEvents, currentIndex);
@@ -270,7 +270,7 @@ namespace Algorithms
 			// If the last entry of the binary events is zero, we need to handle the final section.
 			if (binaryEvents[binaryEvents.Length-1] == 0)
 			{
-				CheckIfValidZone(xData, threshold, includeBoundries, significantZones, zoneStart, binaryEvents.Length-1);
+				CheckIfValidZone(xData, threshold, includeBoundaries, significantZones, zoneStart, binaryEvents.Length-1);
 			}
 
 			// When including the boundaries (includeBoundaries==true), it is possible to have added data points before the beginning of the array
@@ -312,18 +312,18 @@ namespace Algorithms
 		/// </summary>
 		/// <param name="xData">Independent values associated with the log/signal fed to the Segment algorithm and produced the SegmentationResults.</param>
 		/// <param name="threshold">Length a zone must be to be consider "significant."  Zones shorter than this are ignored.</param>
-		/// <param name="includeBoundries">If true, the end data points are added as part of the zone.  Does not change how zones are found.</param>
+		/// <param name="includeBoundaries">If true, the end data points are added as part of the zone.  Does not change how zones are found.</param>
 		/// <param name="significantZones">List of significant zones.</param>
 		/// <param name="startIndex">Starting index of zone.</param>
 		/// <param name="endIndex">Ending index of the zone.</param>
-		private static void CheckIfValidZone(double[] xData, double threshold, bool includeBoundries, List<int[]> significantZones, int startIndex, int endIndex)
+		private static void CheckIfValidZone(double[] xData, double threshold, bool includeBoundaries, List<int[]> significantZones, int startIndex, int endIndex)
 		{
 			// Check to see if the threshold is met.  If it met, we will store the section
 			// as a significant zone.  If the threshold is not met, then the zone is not long
 			// enough so it is ignored and we scan ahead.
 			if (Math.Abs(xData[endIndex] - xData[startIndex]) > threshold)
 			{
-				if (includeBoundries)
+				if (includeBoundaries)
 				{
 					significantZones.Add(new int[] {startIndex-1, endIndex+1});
 				}
