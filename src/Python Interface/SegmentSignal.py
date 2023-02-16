@@ -3,6 +3,7 @@ Created on February 14, 2023
 @author: Lance A. Endres
 """
 import numpy                                     as np
+import pandas                                    as pd
 from   SegmentSignalPy                           import Segment                          as SegmentC
 from   SegmentSignalPy                           import SegmentationResults
 from   NoiseVarianceEstimateMethod               import NoiseVarianceEstimateMethod
@@ -56,6 +57,11 @@ class SegmentSignal():
         results : SegmentationResults
             Results of the segmentation.
         """
+        # Handle input data type.  We need to pass a list to the C function, so anything else
+        # needs to be converted to a list.
+        if type(signal) == pd.core.series.Series:
+            signal = list(signal.values)
+
         # Handle options.
         if noiseVarianceWindowSize is None:
             noiseVarianceWindowSize = int(np.round(0.5*jumpSequenceWindowSize))
@@ -67,7 +73,7 @@ class SegmentSignal():
             raise Exception("An invalid event density estimated after threshold, reduce/increase f and rerun.")
 
         if results.Error > 0:
-            message = "The logarithm argument became zero at sample number " + results.Error
+            message = "The logarithm argument became zero at sample number " + str(results.Error)
             message += " during the calculation of likelihood ratios in Single Most Likelihood Replacement iterations.  "
             message += "There may be more samples of this type which may give rise to this problem, edit/rescale data values and rerun."
             raise Exception(message)
@@ -106,4 +112,7 @@ class SegmentSignal():
 
         for i in range(self.results.SignalLength):
             if self.results.BinaryEventSequence[i]:
-                axis.plot([xData[i], xData[i]], yData, color="mediumvioletred", **kwargs)
+                #"mediumvioletred"
+                kwargs.setdefault("linewidth", 0.5)
+                kwargs.setdefault("color", "orchid")
+                axis.plot([xData[i], xData[i]], yData, **kwargs)
