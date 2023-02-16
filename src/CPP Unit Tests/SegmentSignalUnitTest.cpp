@@ -95,7 +95,7 @@ namespace UnitTests
 			double		threshold		= 1.5;
 
 			// Working and output data.
-			double		workingData[]	= {0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0};
+			int			workingData[]	= {0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0};
 			vector<array<int, 2>>* results;
 
 			// Copy the base line data set to the working data set so it can be modified.

@@ -56,3 +56,8 @@ __pycache__
 src/Test Data/C Sharp Output.txt
 src/Test Data/C Output.txt
 src/Python Extension/Python Extension.vcxproj.filters
+src/Test Data/C Sharp Output - Paper.txt
+src/Test Data/C Sharp Output - Large Data Set.txt
+src/Test Data/C Sharp Output - Large Data Set 2.xlsx
+src/Test Data/C Sharp Output - Large Data Set 2.txt
+src/Python Extension/debugoutput.txt

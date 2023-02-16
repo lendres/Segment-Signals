@@ -35,18 +35,26 @@ class TestSegmentSignal(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Solution provided in paper.
         # Columns that are in the input file.  The first two are input to the function, the last three are the known solution.
         names       = ["Depth", "Log", "SegmentedLog", "EventSequence", "FilteredLog"]
         cls.data   = pd.read_csv(cls.inputFile, sep="\t", header=None, names=names)
+
+        cls.segmenter = SegmentSignal()
+        cls.segmenter.Segment(list(cls.data["Log"].values), cls.f, cls.order, cls.order1, NoiseVarianceEstimateMethod.Point)
+        cls.results = cls.segmenter.results
+
+        cls.segmenter.FindSignificantZones(cls.data["Depth"], 1.0, False)
+
+        # Large data set.
+        cls.largeData   = pd.read_csv(cls.workingDirectory+"Large Data Set.txt", header=None, names=["Depth"])
 
 
     def setUp(self):
         """
         Set up function that runs before each test.
         """
-        self.segmenter = SegmentSignal()
-        self.segmenter.Segment(list(self.data["Log"].values), self.f, self.order, self.order1, NoiseVarianceEstimateMethod.Point)
-        self.results = self.segmenter.results
+        pass
 
 
     def testScalarResults(self):
@@ -68,24 +76,34 @@ class TestSegmentSignal(unittest.TestCase):
         x = self.data["Depth"]
 
         axis = plt.gca()
-        axis.plot(x, self.results.FilteredSignal, color="red", label="Result Filtered Signal")
-        axis.plot(x, self.data["FilteredLog"], label="Input Filtered Signal", linestyle=(0, (5, 5)), linewidth=2)
+        axis.plot(x, self.results.FilteredSignal, color="red", label="Calculated Filtered Signal")
+        axis.plot(x, self.data["FilteredLog"], label="Filtered Signal Solution", linestyle=(0, (5, 5)), linewidth=2)
         axis.legend(loc="lower right", bbox_to_anchor=(1, 0), bbox_transform=axis.transAxes)
         axis.grid()
         plt.show()
 
         axis = plt.gca()
-        axis.plot(x, self.results.SegmentedLog, color="red", label="Result Segmented Signal")
-        axis.plot(x, self.data["SegmentedLog"], label="Input Segmented Signal", linestyle=(0, (5, 5)), linewidth=2)
+        axis.plot(x, self.results.SegmentedLog, color="red", label="Calculated Segmented Signal")
+        axis.plot(x, self.data["SegmentedLog"], label="Segmented Signal Solution", linestyle=(0, (5, 5)), linewidth=2)
         axis.legend(loc="lower right", bbox_to_anchor=(1, 0), bbox_transform=axis.transAxes)
         axis.grid()
         plt.show()
 
 
-    def testFindSignificantZones(self):
-        self.segmenter.FindSignificantZones(self.data["Depth"], 1, False)
-        print("\nSignificant zones:\n", self.segmenter.significantZonesIndices)
-        print("\nSignficant Zone X values", self.segmenter.GetSignifcationZoneValues(self.data["Depth"]))
+    def testFindSignificantZonesIndices(self):
+        solution   = [[9, 28], [30, 40], [42, 54]]
+        calculated = self.segmenter.significantZonesIndices
+
+        result     = (calculated == solution).all()
+        self.assertTrue(result)
+
+
+    def testFindSignificantZonesValues(self):
+        solution   = [[1898.75, 1895.86], [1895.55, 1894.03], [1893.72, 1891.89]]
+        calculated =  self.segmenter.GetSignifcationZoneValues(self.data["Depth"])
+
+        result     = (calculated == solution)
+        self.assertTrue(result)
 
 
 if __name__ == "__main__":

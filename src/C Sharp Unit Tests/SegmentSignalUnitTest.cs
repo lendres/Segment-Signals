@@ -105,7 +105,7 @@ namespace CSharpUnitTests
 			}
 
 			// Write a file for inspection and plotting.
-			WriteResultsFile(_data, results);
+			WriteResultsFile(_data[(int)InputType.Log], results, "Paper");
 		}
 
 		/// <summary>
@@ -116,12 +116,34 @@ namespace CSharpUnitTests
 		[TestMethod]
 		public void LogSeparateForLargeDataSet()
 		{
-			List<double> data = ReadLargeDataSet();
+			List<double> data = ReadLargeDataSet("Large Data Set.txt");
+			SegmentationResults[] results = null;
 			for (int i = 0; i < 5; i++)
 			{
 				// Call to separate the signal.
-				SegmentationResults[] results = DoLogSeparateForLargeDataSet(data, 0.065, 1, 0, NoiseVarianceEstimateMethod.Smoothed, 300);
+				results = DoLogSeparateForLargeDataSet(data, 0.065, 1, 0, NoiseVarianceEstimateMethod.Smoothed, 300);
 			}
+
+			// Write a file for inspection and plotting.
+			WriteResultsFile(data.ToArray(), results[0], "Large Data Set");
+
+		}
+
+		/// <summary>
+		/// Sanity check.  This test replicates a situation that might occur in a piece of production software.  Repeated calls to
+		/// a separate function for processing a relatively large data set that has some corrupted data.  If this tests passes without
+		/// crashing you should expect your software to run trouble free.
+		/// </summary>
+		[TestMethod]
+		public void LogSeparateForLargeDataSet2()
+		{
+			List<double> data = ReadLargeDataSet("Large Data Set 2.txt");
+
+			// Call to separate the signal.
+			SegmentationResults[] results = DoLogSeparateForLargeDataSet(data, 20.0, 100, 50, NoiseVarianceEstimateMethod.Smoothed, 300);
+
+			// Write a file for inspection and plotting.
+			WriteResultsFile(data.ToArray(), results[0], "Large Data Set 2");
 		}
 
 		/// <summary>
@@ -283,11 +305,11 @@ namespace CSharpUnitTests
 		/// Read the file which contains a large data set.
 		/// </summary>
 		/// <returns>Values in the file as a List of doubles.</returns>
-		private List<double> ReadLargeDataSet()
+		private List<double> ReadLargeDataSet(string fileName)
 		{
 			List<double> data = new List<double>();
 
-			StreamReader reader	= new StreamReader(Path.Combine(_workingDirectory, "Large Data Set.txt"));
+			StreamReader reader	= new StreamReader(Path.Combine(_workingDirectory, fileName));
 
 			// Loop over the data.
 			while (!reader.EndOfStream)
@@ -304,16 +326,17 @@ namespace CSharpUnitTests
 		/// </summary>
 		/// <param name="input">Input to the function and the known solution.</param>
 		/// <param name="results">Results of the segmentation.</param>
-		void WriteResultsFile(double[][] input, SegmentationResults results)
+		/// <param name="testName">Name of the test being run.  it is incorporated into the file name.</param>
+		void WriteResultsFile(double[] input, SegmentationResults results, string testName)
 		{
 			// Write a file that can be used for plotting, if desired.
 			// First open the file and check that it was opened.
-			StreamWriter writer = new StreamWriter(Path.Combine(_workingDirectory, "C Sharp Output.txt"), false);
+			StreamWriter writer = new StreamWriter(Path.Combine(_workingDirectory, "C Sharp Output - "+testName+".txt"), false);
 
 			// Loop over data points and write to file.  Writing as floats seems to work best.
-			for (int i = 0; i < _numberOfDataPoints; i++)
+			for (int i = 0; i < input.Length; i++)
 			{
-				writer.WriteLine("{0:N2} {1:N5} {2:N0} {3:N5}", (float)input[(int)InputType.Log][i], (float)results.SegmentedLog[i], (float)results.BinaryEventSequence[i], (float)results.FilteredSignal[i]);
+				writer.WriteLine("{0:N8} {1:N8} {2:N0} {3:N8}", (float)input[i], (float)results.SegmentedLog[i], (int)results.BinaryEventSequence[i], (float)results.FilteredSignal[i]);
 			}
 
 			// Close our file.

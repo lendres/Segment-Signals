@@ -3,7 +3,7 @@ Created on February 14, 2023
 @author: Lance A. Endres
 """
 import numpy                                     as np
-from   SegmentSignalPy                           import Segment
+from   SegmentSignalPy                           import Segment                          as SegmentC
 from   SegmentSignalPy                           import SegmentationResults
 from   NoiseVarianceEstimateMethod               import NoiseVarianceEstimateMethod
 from   SegmentSignalPy                           import FindSignificantZones
@@ -60,7 +60,7 @@ class SegmentSignal():
         if noiseVarianceWindowSize is None:
             noiseVarianceWindowSize = int(np.round(0.5*jumpSequenceWindowSize))
 
-        results = Segment(signal, threshold, jumpSequenceWindowSize, noiseVarianceWindowSize, noiseVarianceEstimateMethod, maxSMLRIterations)
+        results = SegmentC(signal, threshold, jumpSequenceWindowSize, noiseVarianceWindowSize, int(noiseVarianceEstimateMethod), maxSMLRIterations)
 
         # Check error results and provide a message if an error occured.
         if results.Error < 0:

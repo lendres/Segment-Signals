@@ -89,12 +89,12 @@ namespace Algorithms
 		return new SegmentationResults(signalLength, Q, numberOfBinaryEvents, FLTLOG, SEGLOG, R, jumpSequenceVariance, segmentDensity, iterations, error);
 	}
 
-	vector<array<int, 2>>* SegmentSignal::FindSignificantZones(double binaryEvents[], double xData[], int signalLength, double threshold)
+	vector<array<int, 2>>* SegmentSignal::FindSignificantZones(int binaryEvents[], double xData[], int signalLength, double threshold)
 	{
 		return FindSignificantZones(binaryEvents, xData, signalLength, threshold, false);
 	}
 
-	vector<array<int, 2>>* SegmentSignal::FindSignificantZones(double binaryEvents[], double xData[], int signalLength, double threshold, bool includeBoundries)
+	vector<array<int, 2>>* SegmentSignal::FindSignificantZones(int binaryEvents[], double xData[], int signalLength, double threshold, bool includeBoundries)
 	{
 		vector<array<int, 2>>* significantZones = new vector<array<int, 2>>();
 
@@ -103,7 +103,7 @@ namespace Algorithms
 
 		for (int currentIndex = zoneStart+1; currentIndex < signalLength; currentIndex++)
 		{
-			if (binaryEvents[currentIndex] == 1)
+			if (binaryEvents[currentIndex])
 			{
 				CheckIfValidZone(xData, threshold, includeBoundries, significantZones, zoneStart, currentIndex-1);
 
@@ -114,7 +114,7 @@ namespace Algorithms
 		}
 
 		// If the last entry of the binary events is zero, we need to handle the final section.
-		if (binaryEvents[signalLength-1] == 0)
+		if (binaryEvents[signalLength-1])
 		{
 			CheckIfValidZone(xData, threshold, includeBoundries, significantZones, zoneStart, signalLength-1);
 		}
@@ -137,10 +137,10 @@ namespace Algorithms
 		return significantZones;
 	}
 
-	int SegmentSignal::FindNextZero(double binaryEvents[], int signalLength, int currentIndex)
+	int SegmentSignal::FindNextZero(int binaryEvents[], int signalLength, int currentIndex)
 	{
 		// Find the first zero.
-		while (binaryEvents[currentIndex] == 1 && currentIndex < signalLength-1)
+		while (binaryEvents[currentIndex] && currentIndex < signalLength-1)
 		{
 			currentIndex++;
 		}

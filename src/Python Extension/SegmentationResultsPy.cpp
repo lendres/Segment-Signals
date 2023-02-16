@@ -27,7 +27,7 @@ namespace PythonAlgorithms
 		_error						= segmentationResults->GetError();
 
 		// Create the arrays.
-		_binaryEventSequence		= py::array_t<double>(_signalLength);
+		_binaryEventSequence		= py::array_t<int>(_signalLength);
 		_filteredSignal				= py::array_t<double>(_signalLength);
 		_segmentedLog				= py::array_t<double>(_signalLength);
 		_noiseVariance				= py::array_t<double>(_signalLength);
@@ -39,7 +39,7 @@ namespace PythonAlgorithms
 		double* noiseVariance		= segmentationResults->GetNoiseVariance();
 
 		// Get pointers to the actual data inside of the Python arrays.
-		double* binaryEventSequenceBuffer	= static_cast<double*>(_binaryEventSequence.request().ptr);
+		int* binaryEventSequenceBuffer		= static_cast<int*>(_binaryEventSequence.request().ptr);
 		double* filteredSignalBuffer		= static_cast<double*>(_filteredSignal.request().ptr);
 		double* segmentedLogBuffer			= static_cast<double*>(_segmentedLog.request().ptr);
 		double* noiseVarianceBuffer			= static_cast<double*>(_noiseVariance.request().ptr);
