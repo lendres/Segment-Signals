@@ -41,13 +41,15 @@ class TestSegmentSignal(unittest.TestCase):
         cls.data   = pd.read_csv(cls.inputFile, sep="\t", header=None, names=names)
 
         cls.segmenter = SegmentSignal()
-        cls.segmenter.Segment(list(cls.data["Log"].values), cls.f, cls.order, cls.order1, NoiseVarianceEstimateMethod.Point)
+        cls.segmenter.Segment(cls.data["Log"], cls.f, cls.order, cls.order1, NoiseVarianceEstimateMethod.Point)
         cls.results = cls.segmenter.results
 
         cls.segmenter.FindSignificantZones(cls.data["Depth"], 1.0, False)
 
         # Large data set.
-        cls.largeData   = pd.read_csv(cls.workingDirectory+"Large Data Set.txt", header=None, names=["Depth"])
+        cls.largeData           = pd.read_csv(cls.workingDirectory+"Large Data Set.txt", header=None, names=["Log"])
+        cls.largeDataSegmenter  = SegmentSignal()
+        cls.largeDataSegmenter.Segment(cls.largeData["Log"], 0.065, 2, 1, NoiseVarianceEstimateMethod.Smoothed, 300)
 
 
     def setUp(self):
@@ -78,6 +80,7 @@ class TestSegmentSignal(unittest.TestCase):
         axis = plt.gca()
         axis.plot(x, self.results.FilteredSignal, color="red", label="Calculated Filtered Signal")
         axis.plot(x, self.data["FilteredLog"], label="Filtered Signal Solution", linestyle=(0, (5, 5)), linewidth=2)
+        self.segmenter.PlotBinaryEvents(axis, self.data["Depth"])
         axis.legend(loc="lower right", bbox_to_anchor=(1, 0), bbox_transform=axis.transAxes)
         axis.grid()
         plt.show()
@@ -85,13 +88,14 @@ class TestSegmentSignal(unittest.TestCase):
         axis = plt.gca()
         axis.plot(x, self.results.SegmentedLog, color="red", label="Calculated Segmented Signal")
         axis.plot(x, self.data["SegmentedLog"], label="Segmented Signal Solution", linestyle=(0, (5, 5)), linewidth=2)
+        self.segmenter.PlotBinaryEvents(axis, self.data["Depth"])
         axis.legend(loc="lower right", bbox_to_anchor=(1, 0), bbox_transform=axis.transAxes)
         axis.grid()
         plt.show()
 
 
     def testFindSignificantZonesIndices(self):
-        solution   = [[9, 28], [30, 40], [42, 54]]
+        solution   = [[9, 28], [30, 40], [42, 54], [56, 99]]
         calculated = self.segmenter.significantZonesIndices
 
         result     = (calculated == solution).all()
@@ -99,11 +103,24 @@ class TestSegmentSignal(unittest.TestCase):
 
 
     def testFindSignificantZonesValues(self):
-        solution   = [[1898.75, 1895.86], [1895.55, 1894.03], [1893.72, 1891.89]]
+        solution   = [[1898.75, 1895.86], [1895.55, 1894.03], [1893.72, 1891.89], [1891.59, 1885.04]]
         calculated =  self.segmenter.GetSignifcationZoneValues(self.data["Depth"])
 
         result     = (calculated == solution)
         self.assertTrue(result)
+
+    def testLargeDataSet(self):
+        x = range(len(self.largeData["Log"]))
+
+        axis = plt.gca()
+        axis.plot(x, self.largeData["Log"], label="Log", linewidth=1.5)
+        axis.plot(x, self.largeDataSegmenter.results.FilteredSignal, linewidth=1.0, color="red", label="Calculated Filtered Signal")
+
+        self.largeDataSegmenter.PlotBinaryEvents(axis, x)
+        axis.legend(loc="lower right", bbox_to_anchor=(1, 0), bbox_transform=axis.transAxes)
+        axis.grid()
+        plt.show()
+
 
 
 if __name__ == "__main__":
