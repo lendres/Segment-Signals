@@ -61,25 +61,9 @@ py::array_t<int> FindSignificantZones(py::array_t<int> binaryEvents, py::array_t
 	}
 
 	// Get the length of the array/list.  It is required for the lower level functions operation on C arrays.
-	int signalLength = static_cast<int>(eventsInfo.shape[0]);
-
+	int signalLength							= static_cast<int>(eventsInfo.shape[0]);
 	std::vector<std::array<int, 2>>* cppResults = Algorithms::SegmentSignal::FindSignificantZones(binaryEventsPointer, xDataPointer, signalLength, threshold, includeBoundries);
 
-	//py::array_t<py::array_t<int>> pyResults = py::array_t<py::array_t<int>>(results->size());
-	//py::array_t<py::array_t<int>>* pyResultsBuffer	= static_cast<py::array_t<py::array_t<int>>*>(pyResults.request().ptr);
-
-	//for (int i = 0; i < results->size(); i++)
-	//{
-	//	vector<int> indexSet = (*results)[i];
-
-	//	pyResultsBuffer[i] = py::array_t<int>(2);
-	//	int* pyIndexSetPointer = static_cast<int*>(pyResultsBuffer[i].request().ptr);
-	//	pyIndexSetPointer[0] = indexSet[0];
-	//	pyIndexSetPointer[1] = indexSet[1];
-	//};
-
-	//py::array_t<double>		pyResults = py::array_t<double>(2);
-	//py::array_t<double> pyResults = py::array_t<double>(2);
 	size_t size					= cppResults->size();
 	py::array_t<int> pyResults	= py::array_t<int>(2*size);
 	int* pyResultsBuffer		= static_cast<int*>(pyResults.request().ptr);
@@ -90,48 +74,8 @@ py::array_t<int> FindSignificantZones(py::array_t<int> binaryEvents, py::array_t
 		pyResultsBuffer[2*i]		= indexSet[0];
 		pyResultsBuffer[2*i+1]		= indexSet[1];
 	}
-
 	
-	ofstream myfile;
-	myfile.open("C:\\Projects\\ddosi\\Segment Signals\\src\\Python Extension\\debugoutput.txt");
-	myfile << "Events dimensions: " << eventsInfo.ndim <<  std::endl;
-	myfile << "Events length: " << eventsInfo.shape[0] <<  std::endl;
-	myfile << "X data dimensions: " << xDataInfo.ndim <<  std::endl;
-	myfile << "X data length: " << xDataInfo.shape[0] <<  std::endl;
-	myfile << "Threshold: " << threshold <<  std::endl;
-	myfile << "" <<  std::endl;
-
-	myfile << "Binary events" <<  std::endl;
-	for (int i = 0; i < size; i++)
-	{
-		myfile << binaryEventsPointer[i] << " ";
-	}
-
-	myfile << std::endl << std::endl << "X Data" <<  std::endl;
-	for (int i = 0; i < size; i++)
-	{
-		myfile << xDataPointer[i] << " ";
-	}
-
-	myfile << std::endl << std::endl << "CPP" << std::endl;
-	for (int i = 0; i < size; i++)
-	{
-		std::array<int, 2> indexSet	= (*cppResults)[i];
-		myfile << indexSet[0] << "\t" << indexSet[1];
-	}
-
-	myfile << std::endl << std::endl << "Python Before Resize" << std::endl;
-	for (int i = 0; i < size; i++)
-	{
-		myfile << pyResultsBuffer[2*i] << "\t" << pyResultsBuffer[2*i+1];
-	}
-
-
 	pyResults.resize({(int)size, 2});
-
-
-	myfile.close();
-
 
 	delete cppResults;
 
