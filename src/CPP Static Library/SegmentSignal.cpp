@@ -114,7 +114,7 @@ namespace Algorithms
 		}
 
 		// If the last entry of the binary events is zero, we need to handle the final section.
-		if (binaryEvents[signalLength-1])
+		if (!binaryEvents[signalLength-1])
 		{
 			CheckIfValidZone(xData, threshold, includeBoundries, significantZones, zoneStart, signalLength-1);
 		}

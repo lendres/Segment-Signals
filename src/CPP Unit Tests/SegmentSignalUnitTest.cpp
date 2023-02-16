@@ -89,20 +89,21 @@ namespace UnitTests
 		{
 			// Initial data sets / input.
 			//                                      Zone 1                        Zone 2
-			double		baseData[]		= {0, 0, 0, 1, 0, 1, 1, 0, 0, 1,  0,  0,  0,  1,  1,  0,  0};
+			int			baseData[]		= {0, 0, 0, 1, 0, 1, 1, 0, 0, 1,  0,  0,  0,  1,  1,  0,  0};
 			double		xData[]			= {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
 			int			signalLength	= 17;
 			double		threshold		= 1.5;
 
 			// Working and output data.
 			int			workingData[]	= {0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0};
-			vector<array<int, 2>>* results;
 
 			// Copy the base line data set to the working data set so it can be modified.
 			std::copy(std::begin(baseData), std::end(baseData), std::begin(workingData));
 
 			// Initial test.  Check that the correct number of zones was found and that the indexes are correct.
+			vector<array<int, 2>>* results;
 			results = SegmentSignal::FindSignificantZones(workingData, xData, signalLength, threshold);
+
 			Assert::AreEqual(2, (int)results->size(), L"The number of significant zones found is not correct.");
 			Assert::AreEqual(0, (*results)[0][0], L"The index of the significant zone is not correct.");
 			Assert::AreEqual(2, (*results)[0][1], L"The index of the significant zone is not correct.");
