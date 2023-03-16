@@ -94,6 +94,7 @@ PYBIND11_MODULE(SegmentSignalPy, m)
 
     py::class_<PythonAlgorithms::SegmentationResults>(m, "SegmentationResults")
         .def(py::init<>())
+		.def(py::init<int, py::array_t<int>, int, py::array_t<double>, py::array_t<double>, py::array_t<double>, double, double, int, int>())
 		.def_property_readonly("SignalLength",			&PythonAlgorithms::SegmentationResults::GetSignalLength)
 		.def_property_readonly("BinaryEventSequence",	&PythonAlgorithms::SegmentationResults::GetBinaryEventSequence)
         .def_property_readonly("NumberOfBinaryEvents",	&PythonAlgorithms::SegmentationResults::GetNumberOfBinaryEvents)

@@ -36,6 +36,22 @@ namespace PythonAlgorithms
 			SegmentationResults(Algorithms::SegmentationResults* segmentationResults);
 
 			/// <summary>
+			/// Constructor for calling from Python.
+			/// </summary>
+			/// <param name="signalLength">Length of the signal/binary event sequence/filtered signal/et cetera.</param>
+			/// <param name="binaryEventSequence">Binary event sequence.</param>
+			/// <param name="numberOfBinaryEvents">Number of binary events found (number of "1"s found in binary event sequence).</param>
+			/// <param name="filteredSignal">Filtered signal.</param>
+			/// <param name="segmentedLog">Segmented log.</param>
+			/// <param name="noiseVariance">Noise variance.</param>
+			/// <param name="jumpSequenceVariance">Jump sequence variance.</param>
+			/// <param name="segmentDensity">Segment density (ratio of events to total entries in binary event sequence).</param>
+			/// <param name="iterations">Number of iterations performed.</param>
+			/// <param name="error">Error flag.</param>
+			SegmentationResults(int signalLength, py::array_t<int> binaryEventSequence, int numberOfBinaryEvents, py::array_t<double> filteredSignal, py::array_t<double> segmentedLog, 
+				py::array_t<double> noiseVariance, double jumpSequenceVariance, double segmentDensity, int iterations, int error);
+
+			/// <summary>
 			/// destructor.
 			/// </summary>
 			~SegmentationResults();

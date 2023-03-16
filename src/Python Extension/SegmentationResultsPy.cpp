@@ -54,6 +54,21 @@ namespace PythonAlgorithms
 		}
 	}
 
+	SegmentationResults::SegmentationResults(int signalLength, py::array_t<int> binaryEventSequence, int numberOfBinaryEvents, py::array_t<double> filteredSignal,
+		py::array_t<double> segmentedLog, py::array_t<double> noiseVariance, double jumpSequenceVariance, double segmentDensity, int iterations, int error)
+	{
+		_signalLength				= signalLength;
+		_binaryEventSequence		= binaryEventSequence;
+		_numberOfBinaryEvents		= numberOfBinaryEvents;
+		_filteredSignal				= filteredSignal;
+		_segmentedLog				= segmentedLog;
+		_noiseVariance				= noiseVariance;
+		_jumpSequenceVariance		= jumpSequenceVariance;
+		_segmentDensity				= segmentDensity;
+		_iterations					= iterations;
+		_error						= error;
+	}
+
 	SegmentationResults::~SegmentationResults()
 	{
 	}
