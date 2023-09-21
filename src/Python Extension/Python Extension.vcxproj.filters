@@ -2,11 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="module.cpp" />
+    <ClCompile Include="SegmentationResultsPy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Read Me.txt" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="setup.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SegmentationResultsPy.h" />
   </ItemGroup>
 </Project>
