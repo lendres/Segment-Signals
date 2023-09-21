@@ -329,8 +329,8 @@ void MovingAverage(double ARR1[], int NSAMPS, int ORDER, double ARR2[])
 		jback = jback - 2;
 		SUM = SUM + ARR1[jfront] + ARR1[jfront+1];
 		SUM1 = SUM1 + ARR1[jback] + ARR1[jback-1];
-		ARR2[i] = SUM / (jfront + 2);
-		ARR2[NSAMPS-1-i] = SUM1 / (jfront + 2);
+		ARR2[i] = SUM / ((double)jfront + 2);
+		ARR2[NSAMPS-1-i] = SUM1 / ((double)jfront + 2);
 	}
 
 	// Average stable.
@@ -340,7 +340,7 @@ void MovingAverage(double ARR1[], int NSAMPS, int ORDER, double ARR2[])
 	for (int i = ORDER+1; i < NSAMPS-ORDER; i++)
 	{
 		SUM = SUM + ARR1[jfront] - ARR1[jback];
-		ARR2[i] = SUM / (ORDER * 2 + 1);
+		ARR2[i] = SUM / ((double)ORDER * 2 + 1);
 		jfront++;
 		jback++;
 	}
