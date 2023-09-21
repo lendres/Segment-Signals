@@ -30,7 +30,7 @@ PythonAlgorithms::SegmentationResults* Segment(py::array_t<double> signalAsPyLis
 	int signalLength = static_cast<int>(info.shape[0]);
 
 	// Call the algorithm, then convert the results for returning to Python.
-    Algorithms::SegmentationResults*		cppResults		= Algorithms::SegmentSignal::Segment(signalDataPointer, signalLength, threshold, jumpSequenceWindowSize, noiseVarianceWindowSize);
+    Algorithms::SegmentationResults*		cppResults		= Algorithms::SegmentSignal::Segment(signalDataPointer, signalLength, threshold, jumpSequenceWindowSize, noiseVarianceWindowSize, (NoiseVarianceEstimateMethod)noiseVarianceEstimateMethod, maxSMLRIterations);
     PythonAlgorithms::SegmentationResults*	pythonResults	= new PythonAlgorithms::SegmentationResults(cppResults);
 	
 	// The C results are not longer needed.  Everything has been copied to the Python results.
