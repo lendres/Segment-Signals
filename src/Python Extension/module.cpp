@@ -95,6 +95,32 @@ PYBIND11_MODULE(SegmentSignalPy, m)
     py::class_<PythonAlgorithms::SegmentationResults>(m, "SegmentationResults")
         .def(py::init<>())
 		.def(py::init<int, py::array_t<int>, int, py::array_t<double>, py::array_t<double>, py::array_t<double>, double, double, int, int>())
+		.def(py::pickle(
+			[](const PythonAlgorithms::SegmentationResults& p) { // __getstate__
+				// Return a tuple that fully encodes the state of the object.
+				return py::make_tuple(p.GetSignalLength(), p.GetBinaryEventSequence(), p.GetNumberOfBinaryEvents(), p.GetFilteredSignal(), p.GetSegmentedLog(), p.GetNoiseVariance(), p.GetJumpSequenceVariance(), p.GetSegmentDensity(), p.GetIterations(), p.GetError());
+			},
+			[](py::tuple t) { // __setstate__
+				if (t.size() != 10)
+					throw std::runtime_error("Invalid state!");
+
+				// Create a new C++ instance.
+				PythonAlgorithms::SegmentationResults p(
+					t[0].cast<int>(),						// Signal length.
+					t[1].cast<py::array_t<int>>(),			// Binary event sequence.
+					t[2].cast<int>(),						// Number of binary events.
+					t[3].cast<py::array_t<double>>(),		// Filtered signal.
+					t[4].cast<py::array_t<double>>(),		// Segmented log.
+					t[5].cast<py::array_t<double>>(),		// Noise variance.
+					t[6].cast<double>(),					// Noise variance jump sequence.
+					t[7].cast<double>(),					// Segment density.
+					t[8].cast<int>(),						// Iterations.
+					t[9].cast<int>()						// Error.
+				);
+
+				return p;
+			}
+		))
 		.def_property_readonly("SignalLength",			&PythonAlgorithms::SegmentationResults::GetSignalLength)
 		.def_property_readonly("BinaryEventSequence",	&PythonAlgorithms::SegmentationResults::GetBinaryEventSequence)
         .def_property_readonly("NumberOfBinaryEvents",	&PythonAlgorithms::SegmentationResults::GetNumberOfBinaryEvents)

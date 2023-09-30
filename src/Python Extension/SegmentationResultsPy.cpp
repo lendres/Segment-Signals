@@ -73,52 +73,52 @@ namespace PythonAlgorithms
 	{
 	}
 
-	int SegmentationResults::GetSignalLength()
+	int SegmentationResults::GetSignalLength() const
 	{
 		return _signalLength;
 	}
 
-	py::array_t<int> SegmentationResults::GetBinaryEventSequence()
+	py::array_t<int> SegmentationResults::GetBinaryEventSequence() const
 	{
 		return _binaryEventSequence;
 	}
 
-	int SegmentationResults::GetNumberOfBinaryEvents()
+	int SegmentationResults::GetNumberOfBinaryEvents() const
 	{
 		return _numberOfBinaryEvents;
 	}
 
-	py::array_t<double> SegmentationResults::GetFilteredSignal()
+	py::array_t<double> SegmentationResults::GetFilteredSignal() const
 	{
 		return _filteredSignal;
 	}
 
-	py::array_t<double> SegmentationResults::GetSegmentedLog()
+	py::array_t<double> SegmentationResults::GetSegmentedLog() const
 	{
 		return _segmentedLog;
 	}
 
-	py::array_t<double> SegmentationResults::GetNoiseVariance()
+	py::array_t<double> SegmentationResults::GetNoiseVariance() const
 	{
 		return _noiseVariance;
 	}
 
-	double SegmentationResults::GetJumpSequenceVariance()
+	double SegmentationResults::GetJumpSequenceVariance() const
 	{
 		return _jumpSequenceVariance;
 	}
 
-	double SegmentationResults::GetSegmentDensity()
+	double SegmentationResults::GetSegmentDensity() const
 	{
 		return _segmentDensity;
 	}
 		
-	int SegmentationResults::GetIterations()
+	int SegmentationResults::GetIterations() const
 	{
 		return _iterations;
 	}
 
-	int SegmentationResults::GetError()
+	int SegmentationResults::GetError() const
 	{
 		return _error;
 	}

@@ -60,47 +60,47 @@ namespace PythonAlgorithms
 			/// <summary>
 			/// Length of the input signal.  The output sequences are the name length.
 			/// </summary>
-			int GetSignalLength();
+			int GetSignalLength() const;
 
 			/// <summary>
 			/// Array that contains 1s at segmented log boundaries and 0s elsewhere.
 			/// </summary>
-			py::array_t<int> GetBinaryEventSequence();
+			py::array_t<int> GetBinaryEventSequence() const;
 
 			/// <summary>
 			/// Number of binary event sequences detected (number of "1"s in the BinaryEventSequence array).
 			/// </summary>
-			int GetNumberOfBinaryEvents();
+			int GetNumberOfBinaryEvents() const;
 
 			/// <summary>
 			/// Filtered estimate of the signal.
 			/// </summary>
-			py::array_t<double> GetFilteredSignal();
+			py::array_t<double> GetFilteredSignal() const;
 
 			/// <summary>
 			/// Average of filter log for each segment.
 			/// </summary>
-			py::array_t<double> GetSegmentedLog();
+			py::array_t<double> GetSegmentedLog() const;
 
 			/// <summary>
 			/// Estimate noise variance.
 			/// </summary>
-			py::array_t<double> GetNoiseVariance();
+			py::array_t<double> GetNoiseVariance() const;
 
 			/// <summary>
 			/// Estimated variance of the jump sequence.
 			/// </summary>
-			double GetJumpSequenceVariance();
+			double GetJumpSequenceVariance() const;
 
 			/// <summary>
 			/// Estimate segment density.
 			/// </summary>
-			double GetSegmentDensity();
+			double GetSegmentDensity() const;
 		
 			/// <summary>
 			/// SMLR iteration count.
 			/// </summary>
-			int GetIterations();
+			int GetIterations() const;
 
 			/// <summary>
 			/// Error flag.
@@ -111,7 +111,7 @@ namespace PythonAlgorithms
 			///			the calculation of likelihood ratios in SMLR.  There may be more samples of this type which
 			///			may give rise to this problem.  Edit/rescale data values and rerun.
 			/// </summary>
-			int GetError();
+			int GetError() const;
 
 	}; // End class.
 } // End namespace.

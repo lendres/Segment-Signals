@@ -23,6 +23,7 @@ setup(
 
 """
 To install:
+- Close any running Python Kernals (including Spyder).
 - Open the Anaconda prompt.
 - Activate your environment.
 - Navigate to this directory.
