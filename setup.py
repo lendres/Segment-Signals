@@ -1,6 +1,7 @@
 import os
-from setuptools import setup, Extension
-from pybind11 import get_include
+from   setuptools                     import setup
+from   setuptools                     import Extension
+from   pybind11                       import get_include
 
 
 sourceDirectory = os.path.join("src", "CPP Static Library")
