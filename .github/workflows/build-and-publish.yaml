@@ -26,6 +26,8 @@ jobs:
 
     needs: [build-source-dist, build-windows-python311, build-windows-python312]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
 
       - name: Get Wheels
