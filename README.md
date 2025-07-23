@@ -6,11 +6,9 @@ This library implements the algorithm found in:
 [_Segmentation of well logs by maximum likelihood estimation: the algorithm and FORTRAN-77 implementation_](https://www.sciencedirect.com/science/article/pii/0098300491900237) by S.Radhakrishnan, G.Srikanth, and C.H.Mehta
 
 The original algorithm was written in Fortran.  This version converts it to C++ and C#.  In addition, the following changes have been made:
-	- Converted the binary event array (Q) from double to int.  Likely, the original was a double to keep all options as floats and prevent accidental round off.  C/C++ 
-		automatically perform calculations as doubles when any of the parameters is a double.  The binary event sequence is, of course, meant to be binary, so conversion to int is logical.  This also meant a few lines could be simplified (such as comparisons).  E.g. you could directly test "if (Q[i])" rather than requiring the
-		inequality.
-	- Removed a bug from the GETSPK/GetSpikeyZone function.  The fix prevents over running the end of an array.
-	- Addition of "FindSignificantZones" to allow simple filtering (removal) of small zones.
+- Converted the binary event array (Q) from double to int.  Likely, the original was a double to keep all options as floats and prevent accidental round off.  C/C++ automatically perform calculations as doubles when any of the parameters is a double.  The binary event sequence is, of course, meant to be binary, so conversion to int is logical.  This also meant a few lines could be simplified (such as comparisons).  E.g. you could directly test "if (Q[i])" rather than requiring the inequality.
+- Removed a bug from the GETSPK/GetSpikeyZone function.  The fix prevents over running the end of an array.
+- Addition of `FindSignificantZones` to allow simple filtering (removal) of small zones.
 
 ## Organization
 A high-level view of the organization is as follows.
