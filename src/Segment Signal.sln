@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32901.82
+# Visual Studio Version 18
+VisualStudioVersion = 18.11.12328.437 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CPP Static Library", "CPP Static Library\CPP Static Library.vcxproj", "{E0D41DF1-5862-4A1E-9C0C-27C42423C66E}"
 EndProject
@@ -55,8 +55,8 @@ Global
 		{E0D41DF1-5862-4A1E-9C0C-27C42423C66E}.Debug|x64.ActiveCfg = Debug|x64
 		{E0D41DF1-5862-4A1E-9C0C-27C42423C66E}.Debug|x64.Build.0 = Debug|x64
 		{E0D41DF1-5862-4A1E-9C0C-27C42423C66E}.Release|Any CPU.ActiveCfg = Release|Win32
-		{E0D41DF1-5862-4A1E-9C0C-27C42423C66E}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{E0D41DF1-5862-4A1E-9C0C-27C42423C66E}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{E0D41DF1-5862-4A1E-9C0C-27C42423C66E}.Release|Mixed Platforms.ActiveCfg = Release|x64
+		{E0D41DF1-5862-4A1E-9C0C-27C42423C66E}.Release|Mixed Platforms.Build.0 = Release|x64
 		{E0D41DF1-5862-4A1E-9C0C-27C42423C66E}.Release|Win32.ActiveCfg = Release|Win32
 		{E0D41DF1-5862-4A1E-9C0C-27C42423C66E}.Release|Win32.Build.0 = Release|Win32
 		{E0D41DF1-5862-4A1E-9C0C-27C42423C66E}.Release|x64.ActiveCfg = Release|x64
@@ -97,8 +97,8 @@ Global
 		{5126406F-DD42-4E48-9074-516AE5724A91}.Debug|x64.ActiveCfg = Debug|x64
 		{5126406F-DD42-4E48-9074-516AE5724A91}.Debug|x64.Build.0 = Debug|x64
 		{5126406F-DD42-4E48-9074-516AE5724A91}.Release|Any CPU.ActiveCfg = Release|Win32
-		{5126406F-DD42-4E48-9074-516AE5724A91}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{5126406F-DD42-4E48-9074-516AE5724A91}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{5126406F-DD42-4E48-9074-516AE5724A91}.Release|Mixed Platforms.ActiveCfg = Release|x64
+		{5126406F-DD42-4E48-9074-516AE5724A91}.Release|Mixed Platforms.Build.0 = Release|x64
 		{5126406F-DD42-4E48-9074-516AE5724A91}.Release|Win32.ActiveCfg = Release|Win32
 		{5126406F-DD42-4E48-9074-516AE5724A91}.Release|Win32.Build.0 = Release|Win32
 		{5126406F-DD42-4E48-9074-516AE5724A91}.Release|x64.ActiveCfg = Release|x64
@@ -125,8 +125,8 @@ Global
 		{08745470-8B00-464C-9163-AA9D1984201C}.Debug|x64.ActiveCfg = Debug|x64
 		{08745470-8B00-464C-9163-AA9D1984201C}.Debug|x64.Build.0 = Debug|x64
 		{08745470-8B00-464C-9163-AA9D1984201C}.Release|Any CPU.ActiveCfg = Release|Win32
-		{08745470-8B00-464C-9163-AA9D1984201C}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{08745470-8B00-464C-9163-AA9D1984201C}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{08745470-8B00-464C-9163-AA9D1984201C}.Release|Mixed Platforms.ActiveCfg = Release|x64
+		{08745470-8B00-464C-9163-AA9D1984201C}.Release|Mixed Platforms.Build.0 = Release|x64
 		{08745470-8B00-464C-9163-AA9D1984201C}.Release|Win32.ActiveCfg = Release|Win32
 		{08745470-8B00-464C-9163-AA9D1984201C}.Release|Win32.Build.0 = Release|Win32
 		{08745470-8B00-464C-9163-AA9D1984201C}.Release|x64.ActiveCfg = Release|x64

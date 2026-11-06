@@ -3,10 +3,17 @@ C/C++->General->Additional Include Directories
 Set to your Python include folder and the include folder for pybind11.
 Example: C:\Anaconda3\include\
 
+If necessary, install pybind11 using pip:
+C:\Users\<USER>\AppData\Local\Programs\Python\Python314\python.exe -m pip install pybind11
+C:\Users\<USER>\AppData\Local\Programs\Python\Python314\Lib\site-packages\pybind11\include\
+
 Linker->General->Additional Library Directories
 Set to your Python libs folder.
 Example: C:\Anaconda3\libs;
+C:\Users\<USER>\AppData\Local\Programs\Python\Python314\Libs\
 
+# Select the x64 platform in the top menu bar of Visual Studio, and build the project. The output should be a .pyd file in the 
+# src\x64\Release\ folder.
 
 # Examples
 Examples of setting up a Python bindings library can be found at:
