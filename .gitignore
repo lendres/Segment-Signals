@@ -42,6 +42,7 @@ src/TestResults/
 src/AnyCPU
 src/C DLL/Win32
 Debug/
+Release/
 SegmentSignalPy.egg-info/
 build/
 __pycache__
