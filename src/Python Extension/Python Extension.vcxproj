@@ -153,6 +153,20 @@
       <AdditionalDependencies>$(SolutionDir)$(Platform)\$(Configuration)\SegmentSignalCPP.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+  <!-- Spyder's PyQt5 can preload MSVCP140.dll 14.26. Restore the older
+       mutex initialization path to avoid an import crash. Construction
+       makes a runtime call and loses constant initialization.
+       Remove this once updated PyQt and all supported Windows hosts load
+       a runtime at least as new as the extension's MSVC toolset (14.51
+       for the affected build). Check the DLL actually loaded, including
+       bundled copies, then rebuild without the flag, import QtCore before
+       SegmentSignalPy, and run the full suite in a fresh Spyder kernel. -->
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
   <ItemGroup>
     <ClCompile Include="module.cpp" />
     <ClCompile Include="SegmentationResultsPy.cpp" />
