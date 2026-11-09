@@ -39,3 +39,9 @@ A high-level view of the organization is as follows.
 
 ## Compiling
 The Python Extension library requires knowledge of your local Python. See the `src/Python Extensions/Read Me.txt` file in that directory for more information.
+
+## Using with Python
+The library builds and publishes the Python Extension library to PyPI. It can be installed using:
+```cmd
+pip install segmentsignalpy
+```
