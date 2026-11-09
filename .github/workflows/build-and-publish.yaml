@@ -10,13 +10,31 @@ jobs:
 
     uses: ./.github/workflows/build-windows-wheel.yaml
     with:
-      python_version: 3.11
+      python_version: "3.11"
 
   build-windows-python312:
 
     uses: ./.github/workflows/build-windows-wheel.yaml
     with:
-      python_version: 3.12
+      python_version: "3.12"
+
+  build-windows-python313:
+
+    uses: ./.github/workflows/build-windows-wheel.yaml
+    with:
+      python_version: "3.13"
+
+  build-windows-python314:
+
+    uses: ./.github/workflows/build-windows-wheel.yaml
+    with:
+      python_version: "3.14"
+
+  build-windows-python315:
+
+    uses: ./.github/workflows/build-windows-wheel.yaml
+    with:
+      python_version: "3.15"
 
   build-source-dist:
 
@@ -24,7 +42,13 @@ jobs:
 
   publish-release:
 
-    needs: [build-source-dist, build-windows-python311, build-windows-python312]
+    needs:
+      - build-source-dist
+      - build-windows-python311
+      - build-windows-python312
+      - build-windows-python313
+      - build-windows-python314
+      - build-windows-python315
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -44,7 +68,13 @@ jobs:
 
   publish-pypi:
 
-    needs: [build-source-dist, build-windows-python311, build-windows-python312]
+    needs:
+      - build-source-dist
+      - build-windows-python311
+      - build-windows-python312
+      - build-windows-python313
+      - build-windows-python314
+      - build-windows-python315
     runs-on: ubuntu-latest
     permissions:
       id-token: write
